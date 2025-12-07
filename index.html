@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小六第6冊第4課 - 戰爭與和平 | 常識問答比賽</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft JhengHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #58cc02;
+            --secondary-color: #1cb0f6;
+            --danger-color: #ff4b4b;
+            --light-color: #f8f9fa;
+            --dark-color: #333;
+            --gray-color: #e5e5e5;
+            --text-color: #3c3c3c;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --border-radius: 16px;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 10px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+        header {
+            text-align: center;
+            padding: 15px 10px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        h1 i {
+            color: var(--secondary-color);
+        }
+
+        .lesson-info {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            background-color: var(--gray-color);
+            border-radius: 10px;
+            margin: 15px 0;
+            height: 12px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 30%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        /* Main Content */
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Duolingo Logo */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Speech Bubble */
+        .speech-bubble {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .speech-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50px;
+            width: 0;
+            height: 0;
+            border: 15px solid transparent;
+            border-top-color: white;
+            border-bottom: 0;
+            margin-left: -15px;
+            margin-bottom: -15px;
+        }
+
+        .sentence {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        .sentence-en {
+            font-size: 1.4rem;
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .hint {
+            font-size: 1rem;
+            color: #666;
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 12px;
+            margin-top: 15px;
+        }
+
+        /* Destination Area */
+        .destination-area {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            min-height: 120px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-top: 25px;
+            border: 2px dashed #ddd;
+            transition: border-color 0.3s;
+        }
+
+        .destination-area.active {
+            border-color: var(--primary-color);
+        }
+
+        .word-slot {
+            padding: 12px 20px;
+            background-color: var(--light-color);
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--dark-color);
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            border: 2px solid transparent;
+        }
+
+        .word-slot:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .word-slot.selected {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .word-slot.incorrect {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        /* Word Bank */
+        .word-bank {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-top: 10px;
+        }
+
+        .word-bank-title {
+            font-size: 1.2rem;
+            color: var(--dark-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .word-bank-title i {
+            color: var(--secondary-color);
+        }
+
+        .words-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .word-option {
+            padding: 12px 20px;
+            background-color: var(--light-color);
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--dark-color);
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            border: 2px solid transparent;
+        }
+
+        .word-option:hover {
+            background-color: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .word-option.selected {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .word-option.used {
+            opacity: 0.5;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+        .word-option.used:hover {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            transform: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-skip {
+            background-color: var(--gray-color);
+            color: #666;
+        }
+
+        .btn-skip:hover {
+            background-color: #d8d8d8;
+        }
+
+        .btn-check {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-check:hover {
+            background-color: #4ab901;
+        }
+
+        .btn-check:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Feedback Message */
+        .feedback {
+            text-align: center;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-top: 15px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .feedback.correct {
+            background-color: rgba(88, 204, 2, 0.1);
+            color: #2a7c00;
+            border: 2px solid var(--primary-color);
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background-color: rgba(255, 75, 75, 0.1);
+            color: #cc0000;
+            border: 2px solid var(--danger-color);
+            display: block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sentence {
+                font-size: 1.5rem;
+            }
+            
+            .sentence-en {
+                font-size: 1.2rem;
+            }
+            
+            .word-option, .word-slot {
+                font-size: 1.1rem;
+                padding: 10px 16px;
+            }
+            
+            footer {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .sentence {
+                font-size: 1.3rem;
+            }
+            
+            .sentence-en {
+                font-size: 1.1rem;
+            }
+            
+            .word-option, .word-slot {
+                font-size: 1rem;
+                padding: 8px 14px;
+            }
+            
+            .speech-bubble, .word-bank, .destination-area {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-graduation-cap"></i> 小六第6冊第4課 - 戰爭與和平</h1>
+        <div class="lesson-info">常識問答比賽：將英文句子翻譯成西班牙文</div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="progress-text" id="progressText">第 3 題，共 10 題</div>
+    </header>
+
+    <div class="main-container">
+        <div class="logo-container">
+            <div class="logo">📚 戰爭與和平問答比賽</div>
+        </div>
+
+        <div class="speech-bubble">
+            <div class="sentence" id="sentence">War is a method of resolving disputes through force.</div>
+            <div class="sentence-en" id="sentenceTranslation">戰爭是一種以武力解決紛爭的方法。</div>
+            <div class="hint">點擊下方單詞來組成正確的西班牙文翻譯。不是所有單詞都會用到。</div>
+        </div>
+
+        <div class="destination-area" id="destinationArea">
+            <!-- 已選單詞將出現在這裡 -->
+            <div class="placeholder">點擊下方單詞來組成句子</div>
+        </div>
+
+        <div class="word-bank">
+            <div class="word-bank-title"><i class="fas fa-list"></i> 西班牙文單詞庫</div>
+            <div class="words-container" id="wordsContainer">
+                <!-- 單詞將由JavaScript動態生成 -->
+            </div>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+    </div>
+
+    <footer>
+        <button class="btn btn-skip" id="skipBtn">
+            <i class="fas fa-forward"></i> 跳過
+        </button>
+        <button class="btn btn-check" id="checkBtn" disabled>
+            <i class="fas fa-check"></i> 檢查答案
+        </button>
+    </footer>
+
+    <script>
+        // 練習數據 - 基於《戰爭與和平》課文內容
+        const exercises = [
+            {
+                id: 1,
+                english: "War is a method of resolving disputes through force.",
+                chinese: "戰爭是一種以武力解決紛爭的方法。",
+                spanish: ["La", "guerra", "es", "un", "método", "para", "resolver", "disputas", "con", "fuerza"],
+                extraWords: ["conflicto", "paz", "diplomacia", "violencia"]
+            },
+            {
+                id: 2,
+                english: "Territorial disputes are a major cause of war.",
+                chinese: "領土紛爭是戰爭的主要原因之一。",
+                spanish: ["Las", "disputas", "territoriales", "son", "una", "causa", "principal", "de", "guerra"],
+                extraWords: ["económicas", "recursos", "petróleo", "religiosas"]
+            },
+            {
+                id: 3,
+                english: "War causes the loss of human lives and destruction of infrastructure.",
+                chinese: "戰爭導致人命傷亡和基礎設施破壞。",
+                spanish: ["La", "guerra", "causa", "pérdida", "de", "vidas", "humanas", "y", "destrucción", "de", "infraestructura"],
+                extraWords: ["edificios", "carreteras", "hospitales", "escuelas"]
+            },
+            {
+                id: 4,
+                english: "Landmines remain a threat long after wars end.",
+                chinese: "地雷在戰爭結束後仍然構成長期威脅。",
+                spanish: ["Las", "minas", "terrestres", "siguen", "siendo", "una", "amenaza", "mucho", "después", "de", "las", "guerras"],
+                extraWords: ["bombas", "explosivos", "peligro", "seguridad"]
+            },
+            {
+                id: 5,
+                english: "Refugees are forced to leave their homes due to war.",
+                chinese: "難民因戰爭被迫離開家園。",
+                spanish: ["Los", "refugiados", "se", "ven", "obligados", "a", "abandonar", "sus", "hogares", "debido", "a", "la", "guerra"],
+                extraWords: ["inmigrantes", "desplazados", "país", "nación"]
+            },
+            {
+                id: 6,
+                english: "The United Nations works to maintain world peace.",
+                chinese: "聯合國致力於維護世界和平。",
+                spanish: ["Las", "Naciones", "Unidas", "trabajan", "para", "mantener", "la", "paz", "mundial"],
+                extraWords: ["organización", "internacional", "países", "miembros"]
+            },
+            {
+                id: 7,
+                english: "Doctors Without Borders provides medical aid in war zones.",
+                chinese: "無國界醫生在戰區提供醫療援助。",
+                spanish: ["Médicos", "Sin", "Fronteras", "proporciona", "ayuda", "médica", "en", "zonas", "de", "guerra"],
+                extraWords: ["hospitales", "móviles", "voluntarios", "emergencia"]
+            },
+            {
+                id: 8,
+                english: "Peace requires international cooperation and mutual respect.",
+                chinese: "和平需要國際合作和相互尊重。",
+                spanish: ["La", "paz", "requiere", "cooperación", "internacional", "y", "respeto", "mutuo"],
+                extraWords: ["diálogo", "entendimiento", "colaboración", "armonía"]
+            },
+            {
+                id: 9,
+                english: "World War I lasted from 1914 to 1918.",
+                chinese: "第一次世界大戰從1914年持續到1918年。",
+                spanish: ["La", "Primera", "Guerra", "Mundial", "duró", "de", "1914", "a", "1918"],
+                extraWords: ["segunda", "1939", "1945", "conflicto"]
+            },
+            {
+                id: 10,
+                english: "Dialogue and negotiation are better than violence.",
+                chinese: "對話和談判比暴力更好。",
+                spanish: ["El", "diálogo", "y", "la", "negociación", "son", "mejores", "que", "la", "violencia"],
+                extraWords: ["fuerza", "combate", "batalla", "confrontación"]
+            }
+        ];
+
+        // 當前練習索引
+        let currentExerciseIndex = 0;
+        let selectedWords = [];
+        let wordElements = [];
+
+        // DOM元素
+        const sentenceElement = document.getElementById('sentence');
+        const sentenceTranslationElement = document.getElementById('sentenceTranslation');
+        const destinationArea = document.getElementById('destinationArea');
+        const wordsContainer = document.getElementById('wordsContainer');
+        const checkBtn = document.getElementById('checkBtn');
+        const skipBtn = document.getElementById('skipBtn');
+        const feedbackElement = document.getElementById('feedback');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+
+        // 初始化
+        function init() {
+            loadExercise(currentExerciseIndex);
+            updateProgress();
+            
+            // 添加事件監聽器
+            checkBtn.addEventListener('click', checkAnswer);
+            skipBtn.addEventListener('click', skipExercise);
+        }
+
+        // 載入練習
+        function loadExercise(index) {
+            const exercise = exercises[index];
+            
+            // 重置狀態
+            selectedWords = [];
+            wordElements = [];
+            destinationArea.innerHTML = '<div class="placeholder">點擊下方單詞來組成句子</div>';
+            destinationArea.classList.remove('active');
+            feedbackElement.className = 'feedback';
+            feedbackElement.textContent = '';
+            checkBtn.disabled = true;
+            
+            // 更新句子
+            sentenceElement.textContent = exercise.english;
+            sentenceTranslationElement.textContent = exercise.chinese;
+            
+            // 創建單詞庫
+            createWordBank(exercise);
+        }
+
+        // 創建單詞庫
+        function createWordBank(exercise) {
+            wordsContainer.innerHTML = '';
+            
+            // 合併正確單詞和額外單詞
+            const allWords = [...exercise.spanish, ...exercise.extraWords];
+            
+            // 隨機排序
+            const shuffledWords = shuffleArray([...allWords]);
+            
+            // 創建單詞元素
+            shuffledWords.forEach(word => {
+                const wordElement = document.createElement('div');
+                wordElement.className = 'word-option';
+                wordElement.textContent = word;
+                wordElement.dataset.word = word;
+                
+                // 添加點擊事件
+                wordElement.addEventListener('click', () => selectWord(word, wordElement));
+                
+                // 添加到容器
+                wordsContainer.appendChild(wordElement);
+                wordElements.push({word, element: wordElement});
+            });
+        }
+
+        // 選擇單詞
+        function selectWord(word, element) {
+            // 如果單詞已被使用，則忽略
+            if (element.classList.contains('used')) {
+                return;
+            }
+            
+            // 標記單詞為已使用
+            element.classList.add('used');
+            element.classList.add('selected');
+            
+            // 添加到已選單詞列表
+            selectedWords.push(word);
+            
+            // 更新目標區域
+            updateDestinationArea();
+            
+            // 啟用檢查按鈕
+            checkBtn.disabled = false;
+        }
+
+        // 更新目標區域
+        function updateDestinationArea() {
+            destinationArea.innerHTML = '';
+            destinationArea.classList.add('active');
+            
+            selectedWords.forEach((word, index) => {
+                const wordSlot = document.createElement('div');
+                wordSlot.className = 'word-slot';
+                wordSlot.textContent = word;
+                wordSlot.dataset.index = index;
+                
+                // 添加點擊事件以取消選擇
+                wordSlot.addEventListener('click', () => deselectWord(index));
+                
+                destinationArea.appendChild(wordSlot);
+            });
+        }
+
+        // 取消選擇單詞
+        function deselectWord(index) {
+            // 從已選單詞中移除
+            const removedWord = selectedWords.splice(index, 1)[0];
+            
+            // 找到對應的單詞元素並恢復
+            const wordElement = wordElements.find(item => item.word === removedWord && item.element.classList.contains('used'));
+            if (wordElement) {
+                wordElement.element.classList.remove('used');
+                wordElement.element.classList.remove('selected');
+            }
+            
+            // 更新目標區域
+            if (selectedWords.length === 0) {
+                destinationArea.innerHTML = '<div class="placeholder">點擊下方單詞來組成句子</div>';
+                destinationArea.classList.remove('active');
+                checkBtn.disabled = true;
+            } else {
+                updateDestinationArea();
+            }
+        }
+
+        // 檢查答案
+        function checkAnswer() {
+            const currentExercise = exercises[currentExerciseIndex];
+            const correctAnswer = currentExercise.spanish;
+            
+            // 檢查是否完全匹配
+            const isCorrect = arraysEqual(selectedWords, correctAnswer);
+            
+            // 顯示反饋
+            if (isCorrect) {
+                feedbackElement.textContent = '✓ 正確！翻譯完全正確。';
+                feedbackElement.className = 'feedback correct';
+                
+                // 自動進入下一題
+                setTimeout(() => {
+                    nextExercise();
+                }, 1500);
+            } else {
+                feedbackElement.textContent = '✗ 不正確。請再試一次。';
+                feedbackElement.className = 'feedback incorrect';
+                
+                // 標記錯誤的單詞
+                markIncorrectWords(correctAnswer);
+            }
+        }
+
+        // 標記錯誤的單詞
+        function markIncorrectWords(correctAnswer) {
+            const wordSlots = document.querySelectorAll('.word-slot');
+            
+            wordSlots.forEach((slot, index) => {
+                if (selectedWords[index] !== correctAnswer[index]) {
+                    slot.classList.add('incorrect');
+                }
+            });
+        }
+
+        // 跳過練習
+        function skipExercise() {
+            nextExercise();
+        }
+
+        // 下一題
+        function nextExercise() {
+            currentExerciseIndex++;
+            
+            if (currentExerciseIndex >= exercises.length) {
+                currentExerciseIndex = 0; // 循環回到第一題
+            }
+            
+            loadExercise(currentExerciseIndex);
+            updateProgress();
+        }
+
+        // 更新進度條
+        function updateProgress() {
+            const progressPercentage = ((currentExerciseIndex + 1) / exercises.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            progressText.textContent = `第 ${currentExerciseIndex + 1} 題，共 ${exercises.length} 題`;
+        }
+
+        // 輔助函數：隨機排序數組
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // 輔助函數：比較兩個數組是否相等
+        function arraysEqual(arr1, arr2) {
+            if (arr1.length !== arr2.length) return false;
+            for (let i = 0; i < arr1.length; i++) {
+                if (arr1[i] !== arr2[i]) return false;
+            }
+            return true;
+        }
+
+        // 頁面載入時初始化
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
