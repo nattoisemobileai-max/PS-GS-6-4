@@ -140,22 +140,12 @@
         }
 
         .sentence {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 600;
             color: var(--dark-color);
             margin-bottom: 15px;
             line-height: 1.4;
             text-align: center;
-        }
-
-        .sentence-en {
-            font-size: 1.4rem;
-            color: #666;
-            text-align: center;
-            margin-bottom: 15px;
-            padding: 10px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
         }
 
         .hint {
@@ -164,6 +154,29 @@
             border-left: 4px solid var(--secondary-color);
             padding-left: 12px;
             margin-top: 15px;
+        }
+
+        /* Question Type Indicator */
+        .question-type {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        /* Part Indicator */
+        .part-indicator {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-left: 10px;
+            font-weight: normal;
         }
 
         /* Destination Area */
@@ -350,25 +363,25 @@
             display: block;
         }
 
-        /* Question Type Indicator */
-        .question-type {
-            display: inline-block;
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
+        /* Correct Answer Display */
+        .correct-answer {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: rgba(28, 176, 246, 0.1);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .correct-answer-title {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 8px;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
             .sentence {
-                font-size: 1.5rem;
-            }
-            
-            .sentence-en {
-                font-size: 1.2rem;
+                font-size: 1.4rem;
             }
             
             .word-option, .word-slot {
@@ -396,10 +409,6 @@
                 font-size: 1.3rem;
             }
             
-            .sentence-en {
-                font-size: 1.1rem;
-            }
-            
             .word-option, .word-slot {
                 font-size: 1rem;
                 padding: 8px 14px;
@@ -419,7 +428,7 @@
         <div class="progress-container">
             <div class="progress-bar" id="progressBar"></div>
         </div>
-        <div class="progress-text" id="progressText">第 3 題，共 10 題</div>
+        <div class="progress-text" id="progressText">第 1 題，共 10 題</div>
     </header>
 
     <div class="main-container">
@@ -428,8 +437,8 @@
         </div>
 
         <div class="speech-bubble">
-            <div class="question-type">問答題</div>
-            <div class="sentence" id="sentence">戰爭是甚麼？</div>
+            <div class="question-type">問答題 <span class="part-indicator" id="partIndicator">第一部分</span></div>
+            <div class="sentence" id="sentence">根據課文，如何定義「戰爭」？</div>
             <div class="hint">點擊下方詞語來組成正確答案。不是所有詞語都會用到。</div>
         </div>
 
@@ -446,6 +455,10 @@
         </div>
 
         <div class="feedback" id="feedback"></div>
+        <div class="correct-answer" id="correctAnswer" style="display: none;">
+            <div class="correct-answer-title">正確答案：</div>
+            <div id="correctAnswerText"></div>
+        </div>
     </div>
 
     <footer>
@@ -458,67 +471,77 @@
     </footer>
 
     <script>
-        // 練習數據 - 基於《戰爭與和平》課文內容的自問自答
+        // 練習數據 - 從50個問題中精選10個
         const exercises = [
             {
                 id: 1,
-                question: "戰爭是甚麼？",
+                part: "第一部分：戰爭的定義與本質",
+                question: "根據課文，如何定義「戰爭」？",
                 answer: ["戰爭", "是", "一種", "以", "武力", "解決", "紛爭", "的", "方法"],
-                extraWords: ["和平", "談判", "對話", "外交"]
+                extraWords: ["和平", "談判", "對話", "外交", "合作", "協商"]
             },
             {
                 id: 2,
-                question: "為甚麼會爆發戰爭？",
-                answer: ["戰爭", "爆發", "的", "原因", "包括", "領土", "紛爭", "經濟", "利益", "宗教", "衝突", "勢力", "擴張"],
-                extraWords: ["文化", "交流", "貿易", "合作", "體育", "競賽"]
+                part: "第一部分：戰爭的定義與本質",
+                question: "對於解決糾紛，課文傳遞的核心立場是甚麼？",
+                answer: ["無論", "遇到", "任何", "糾紛", "都", "不應該", "用", "武力", "解決"],
+                extraWords: ["可以", "應該", "必須", "盡量", "避免", "使用"]
             },
             {
                 id: 3,
-                question: "戰爭帶來哪些短期影響？",
-                answer: ["短期", "影響", "包括", "人命", "傷亡", "基礎", "設施", "破壞"],
-                extraWords: ["經濟", "發展", "文化交流", "教育", "進步", "科技", "創新"]
+                part: "第一部分：戰爭的定義與本質",
+                question: "除了武力，解決紛爭還可以有甚麼方式？",
+                answer: ["外交", "談判", "國際", "調解", "法律", "仲裁", "對話", "與", "協商", "等", "和平", "方式"],
+                extraWords: ["戰爭", "衝突", "對抗", "暴力", "威脅", "報復"]
             },
             {
                 id: 4,
-                question: "戰爭帶來哪些長期影響？",
-                answer: ["長期", "影響", "包括", "地雷", "持續", "威脅", "土地", "荒廢", "難民", "流離失所", "心靈", "創傷"],
-                extraWords: ["經濟", "繁榮", "人口", "增長", "城市", "發展", "環境", "美化"]
+                part: "第二部分：戰爭爆發的原因",
+                question: "課文列出哪些導致戰爭的主要原因？",
+                answer: ["領土", "紛爭", "經濟", "利益", "宗教", "衝突"],
+                extraWords: ["文化", "交流", "體育", "競賽", "貿易", "合作"]
             },
             {
                 id: 5,
-                question: "請舉出近百年來的一些重要戰爭。",
-                answer: ["第一", "次", "世界", "大戰", "第二", "次", "世界", "大戰", "南北", "韓", "戰爭", "兩伊", "戰爭", "越南", "戰爭", "伊拉克", "戰爭"],
-                extraWords: ["冷戰", "貿易戰", "文化戰", "體育", "賽事", "奧運", "會"]
+                part: "第二部分：戰爭爆發的原因",
+                question: "1950年至1953年在朝鮮半島發生的戰爭叫甚麼？",
+                answer: ["南北韓", "戰爭", "或", "韓戰"],
+                extraWords: ["越南戰爭", "兩伊戰爭", "伊拉克戰爭", "世界大戰"]
             },
             {
                 id: 6,
-                question: "聯合國如何維護世界和平？",
-                answer: ["聯合國", "的", "主要", "工作", "包括", "監察", "武裝", "組織", "調解", "紛爭", "援助", "難民", "消除", "大", "殺傷力", "武器"],
-                extraWords: ["舉辦", "運動會", "推廣", "旅遊", "發展", "經濟", "貿易"]
+                part: "第二部分：戰爭爆發的原因",
+                question: "2003年至2011年，以美國為首聯軍入侵的戰爭叫甚麼？",
+                answer: ["伊拉克", "戰爭"],
+                extraWords: ["阿富汗戰爭", "越南戰爭", "韓戰", "兩伊戰爭"]
             },
             {
                 id: 7,
-                question: "無國界醫生的主要工作是甚麼？",
-                answer: ["無國界", "醫生", "提供", "醫療", "援助", "曾", "獲", "諾貝爾", "和平", "獎"],
-                extraWords: ["教育", "服務", "建築", "工程", "農業", "發展", "科技", "研發"]
+                part: "第三部分：戰爭帶來的影響",
+                question: "戰爭最直接的影響是甚麼？",
+                answer: ["造成", "龐大", "的", "人命", "傷亡"],
+                extraWords: ["經濟", "發展", "文化", "進步", "科技", "創新"]
             },
             {
                 id: 8,
-                question: "戰爭對難民有甚麼影響？",
-                answer: ["難民", "因", "戰爭", "被迫", "離開", "家園", "面對", "親人", "失散", "或", "離世", "承受", "心靈", "創傷"],
-                extraWords: ["獲得", "新", "機會", "學習", "新", "技能", "認識", "新", "朋友", "體驗", "新", "文化"]
+                part: "第三部分：戰爭帶來的影響",
+                question: "戰爭如何影響下一代兒童？",
+                answer: ["可能", "失去", "受教育", "機會", "身心", "發展", "受創", "在", "暴力", "環境", "中", "成長"],
+                extraWords: ["獲得", "更多", "資源", "享受", "和平", "生活", "健康", "成長"]
             },
             {
                 id: 9,
-                question: "怎樣才能避免戰爭？",
-                answer: ["避免", "戰爭", "需要", "國際", "間", "合作", "彼此", "尊重", "互諒", "互讓", "透過", "對話", "與", "外交", "手段", "解決", "紛爭"],
-                extraWords: ["武力", "威脅", "經濟", "制裁", "軍事", "演習", "間諜", "活動"]
+                part: "第四部分：維護和平與人道援助",
+                question: "世界上最重要的維護和平的國際組織是甚麼？",
+                answer: ["聯合國"],
+                extraWords: ["無國界醫生", "國際紅十字會", "世界衛生組織", "北約組織"]
             },
             {
                 id: 10,
-                question: "本課總結中強調了哪些維護和平的原則？",
-                answer: ["本課", "強調", "任何", "紛爭", "都", "不應", "以", "武力", "解決", "國際", "組織", "應", "促進", "合作", "通過", "尊重", "理解", "與", "讓步", "來", "維護", "世界", "和平"],
-                extraWords: ["競爭", "對抗", "孤立", "制裁", "威脅", "報復", "懲罰"]
+                part: "第四部分：維護和平與人道援助",
+                question: "聯合國的四項主要和平工作是什麼？",
+                answer: ["監察", "武裝", "組織", "調解", "各國", "的", "紛爭", "援助", "難民", "消除", "大", "殺傷力", "武器"],
+                extraWords: ["舉辦", "運動會", "推廣", "旅遊", "發展", "經濟", "貿易"]
             }
         ];
 
@@ -529,6 +552,7 @@
 
         // DOM元素
         const sentenceElement = document.getElementById('sentence');
+        const partIndicatorElement = document.getElementById('partIndicator');
         const destinationArea = document.getElementById('destinationArea');
         const wordsContainer = document.getElementById('wordsContainer');
         const checkBtn = document.getElementById('checkBtn');
@@ -536,6 +560,8 @@
         const feedbackElement = document.getElementById('feedback');
         const progressBar = document.getElementById('progressBar');
         const progressText = document.getElementById('progressText');
+        const correctAnswerElement = document.getElementById('correctAnswer');
+        const correctAnswerTextElement = document.getElementById('correctAnswerText');
 
         // 初始化
         function init() {
@@ -558,10 +584,12 @@
             destinationArea.classList.remove('active');
             feedbackElement.className = 'feedback';
             feedbackElement.textContent = '';
+            correctAnswerElement.style.display = 'none';
             checkBtn.disabled = true;
             
-            // 更新問題
+            // 更新問題和部分
             sentenceElement.textContent = exercise.question;
+            partIndicatorElement.textContent = exercise.part.split('：')[0];
             
             // 創建詞語庫
             createWordBank(exercise);
@@ -667,22 +695,19 @@
                 feedbackElement.textContent = '✓ 正確！答案完全正確。';
                 feedbackElement.className = 'feedback correct';
                 
-                // 顯示完整答案
-                const fullAnswer = correctAnswer.join('');
-                setTimeout(() => {
-                    feedbackElement.innerHTML += `<br><small>完整答案：${fullAnswer}</small>`;
-                }, 500);
-                
                 // 自動進入下一題
                 setTimeout(() => {
                     nextExercise();
-                }, 2000);
+                }, 1500);
             } else {
-                feedbackElement.textContent = '✗ 不正確。請再試一次。';
+                feedbackElement.textContent = '✗ 不正確。請再試一次或查看正確答案。';
                 feedbackElement.className = 'feedback incorrect';
                 
                 // 標記錯誤的詞語
                 markIncorrectWords(correctAnswer);
+                
+                // 顯示正確答案
+                showCorrectAnswer(correctAnswer);
             }
         }
 
@@ -695,6 +720,12 @@
                     slot.classList.add('incorrect');
                 }
             });
+        }
+
+        // 顯示正確答案
+        function showCorrectAnswer(correctAnswer) {
+            correctAnswerTextElement.textContent = correctAnswer.join('');
+            correctAnswerElement.style.display = 'block';
         }
 
         // 跳過練習
