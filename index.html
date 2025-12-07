@@ -174,6 +174,37 @@
             gap: 8px;
         }
         
+        .detail-section {
+            margin: 15px 0;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .detail-title {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .detail-list {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .detail-list li {
+            margin-bottom: 8px;
+            padding-left: 5px;
+        }
+        
+        .detail-list strong {
+            color: var(--primary-dark);
+        }
+        
         /* 課文截圖樣式 */
         .textbook-image {
             width: 100%;
@@ -721,12 +752,60 @@
                 
                 <div class="summary-card">
                     <h3><i class="fas fa-dove"></i> 第4節：怎樣維護世界和平？</h3>
-                    <p>聯合國的主要工作：監察武裝組織、調解紛爭、援助難民、消除大殺傷力武器。無國界醫生提供醫療援助，曾獲諾貝爾和平獎。</p>
-                </div>
-                
-                <div class="summary-card">
-                    <h3><i class="fas fa-lightbulb"></i> 延伸學習與本課總結</h3>
-                    <p>鼓勵設計海報宣揚和平信息。總結戰爭的原因、影響與和平的重要性。強調國際合作、尊重與互諒互讓是維護和平的關鍵。</p>
+                    <p>維護世界和平需要國際組織和個人共同努力。以下是兩個重要組織的工作：</p>
+                    
+                    <!-- 聯合國工作詳解 -->
+                    <div class="detail-section">
+                        <div class="detail-title">
+                            <i class="fas fa-globe"></i> 聯合國的主要工作
+                        </div>
+                        <ul class="detail-list">
+                            <li><strong>監察武裝組織：</strong>監督各國軍隊和武裝團體的活動，防止違反國際法的行為。</li>
+                            <li><strong>調解各國的紛爭：</strong>透過外交途徑協助國家解決爭端，避免衝突升級。</li>
+                            <li><strong>援助難民：</strong>為因戰爭而流離失所的人提供食物、住所和醫療援助。</li>
+                            <li><strong>消除大殺傷力武器：</strong>推動裁軍，特別是核武器、化學武器和生物武器。</li>
+                            <li><strong>維持和平行動：</strong>派遣維和部隊到衝突地區，監督停火協議的執行。</li>
+                            <li><strong>國際法制定：</strong>制定國際法規，為國際關係提供法律框架。</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 無國界醫生工作詳解 -->
+                    <div class="detail-section">
+                        <div class="detail-title">
+                            <i class="fas fa-heartbeat"></i> 無國界醫生的主要工作
+                        </div>
+                        <ul class="detail-list">
+                            <li><strong>提供緊急醫療援助：</strong>在戰亂地區設立臨時醫院和診所，治療戰爭傷患。</li>
+                            <li><strong>外科手術：</strong>為戰爭受傷者進行緊急外科手術，挽救生命。</li>
+                            <li><strong>傳染病防治：</strong>在難民營和戰亂地區進行疾病監測和預防，防止傳染病爆發。</li>
+                            <li><strong>心理健康支持：</strong>為受戰爭創傷的平民提供心理輔導和精神健康服務。</li>
+                            <li><strong>營養治療：</strong>為營養不良的難民，特別是兒童，提供營養治療。</li>
+                            <li><strong>疫苗接種：</strong>在戰亂地區進行大規模疫苗接種，預防麻疹、霍亂等疾病。</li>
+                            <li><strong>婦產科和兒科服務：</strong>為孕婦和兒童提供專門醫療服務，降低孕產婦和嬰兒死亡率。</li>
+                            <li><strong>醫療培訓：</strong>培訓當地醫療人員，提升戰亂地區的醫療能力。</li>
+                            <li><strong>醫療物資供應：</strong>向戰亂地區醫院提供急需的醫療設備和藥品。</li>
+                            <li><strong>見證和報告：</strong>記錄戰爭中針對醫療設施和平民的攻擊行為，向國際社會報告。</li>
+                        </ul>
+                        <p>無國界醫生於1999年獲得諾貝爾和平獎，以表彰其為戰亂地區人民提供醫療服務的努力。該組織堅持中立、獨立和不偏不倚的原則，為最需要幫助的人提供醫療援助，不論其種族、宗教或政治立場。</p>
+                    </div>
+                    
+                    <!-- 其他維護和平的組織 -->
+                    <div class="detail-section">
+                        <div class="detail-title">
+                            <i class="fas fa-hands-helping"></i> 其他重要的和平組織
+                        </div>
+                        <ul class="detail-list">
+                            <li><strong>國際紅十字會：</strong>提供戰時人道援助，保護戰爭受害者。</li>
+                            <li><strong>國際特赦組織：</strong>關注人權問題，反對酷刑和任意拘留。</li>
+                            <li><strong>世界糧食計劃署：</strong>為戰亂地區提供糧食援助。</li>
+                            <li><strong>聯合國兒童基金會：</strong>保護戰爭中的兒童權益。</li>
+                            <li><strong>國際刑事法院：</strong>審理戰爭罪、危害人類罪和種族滅絕罪。</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="summary-box">
+                        <strong>小總結：任何紛爭都不應該以武力解決。各國為了維護世界和平，促成了國際組織聯合國的誕生。聯合國的工作主要包括協助調解各國的紛爭、致力消除大殺傷力武器等。此外，無國界醫生等國際組織為受戰爭影響的人的生命和尊嚴作出了很大的努力。</strong>
+                    </div>
                 </div>
             </div>
             
@@ -851,18 +930,24 @@
 │
 ├── <span class="mindmap-node">4. 維護和平的組織與方法</span>
 │    ├── 聯合國
-│    │    ├── 監察武裝
-│    │    ├── 調解紛爭
+│    │    ├── 監察武裝組織
+│    │    ├── 調解各國紛爭
 │    │    ├── 援助難民
-│    │    └── 消除大殺傷力武器
+│    │    ├── 消除大殺傷力武器
+│    │    └── 維持和平行動
 │    └── 無國界醫生
-│         └── 醫療人道救援
+│         ├── 緊急醫療援助
+│         ├── 外科手術
+│         ├── 傳染病防治
+│         ├── 心理健康支持
+│         ├── 營養治療
+│         └── 疫苗接種
 │
 └── <span class="mindmap-node">5. 本課核心信息</span>
      ├── 反對武力解決紛爭
      ├── 推動國際合作
      ├── 尊重與互諒
-     └── 宣揚和平理念（海報設計）
+     └── 宣揚和平理念
                 </pre>
             </div>
         </section>
@@ -1061,6 +1146,30 @@
                             <div class="answer-text">監察武裝組織、調解各國的紛爭、援助難民、消除大殺傷力武器。</div>
                         </div>
                     </div>
+                    
+                    <div class="question-item">
+                        <div class="question-header">
+                            <div class="question-number">14</div>
+                            <div class="question-section">維護和平</div>
+                        </div>
+                        <div class="question-text">無國界醫生曾獲得哪一項國際獎項？</div>
+                        <button class="show-answer-btn">顯示答案</button>
+                        <div class="answer-container">
+                            <div class="answer-text">諾貝爾和平獎（1999年獲得）。</div>
+                        </div>
+                    </div>
+                    
+                    <div class="question-item">
+                        <div class="question-header">
+                            <div class="question-number">15</div>
+                            <div class="question-section">維護和平</div>
+                        </div>
+                        <div class="question-text">列出無國界醫生的三項主要工作。</div>
+                        <button class="show-answer-btn">顯示答案</button>
+                        <div class="answer-container">
+                            <div class="answer-text">1. 提供緊急醫療援助；2. 為戰爭受傷者進行外科手術；3. 為受戰爭創傷的人提供心理健康支持；4. 在難民營進行疫苗接種；5. 為營養不良的難民提供營養治療。（任選三項）</div>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- 選擇題部分 -->
@@ -1070,7 +1179,7 @@
                     <!-- 選擇題 1 -->
                     <div class="question-item">
                         <div class="question-header">
-                            <div class="question-number">14</div>
+                            <div class="question-number">16</div>
                             <div class="question-section">選擇題</div>
                         </div>
                         <div class="question-text">根據課文，戰爭主要是以甚麼方式解決紛爭？</div>
@@ -1103,7 +1212,7 @@
                     <!-- 選擇題 2 -->
                     <div class="question-item">
                         <div class="question-header">
-                            <div class="question-number">15</div>
+                            <div class="question-number">17</div>
                             <div class="question-section">選擇題</div>
                         </div>
                         <div class="question-text">以下哪一項不是課文中提到的戰爭爆發原因？</div>
@@ -1136,40 +1245,40 @@
                     <!-- 選擇題 3 -->
                     <div class="question-item">
                         <div class="question-header">
-                            <div class="question-number">16</div>
+                            <div class="question-number">18</div>
                             <div class="question-section">選擇題</div>
                         </div>
-                        <div class="question-text">第一次世界大戰的主要原因是甚麼？</div>
+                        <div class="question-text">無國界醫生主要為哪類人群提供服務？</div>
                         
                         <div class="mcq-options">
                             <div class="mcq-option">
                                 <div class="option-letter">A</div>
-                                <div class="option-text">宗教衝突</div>
+                                <div class="option-text">戰亂地區的人民</div>
                             </div>
                             <div class="mcq-option">
                                 <div class="option-letter">B</div>
-                                <div class="option-text">帝國主義擴張與同盟體系對立</div>
+                                <div class="option-text">發達國家的富人</div>
                             </div>
                             <div class="mcq-option">
                                 <div class="option-letter">C</div>
-                                <div class="option-text">資源爭奪</div>
+                                <div class="option-text">體育運動員</div>
                             </div>
                             <div class="mcq-option">
                                 <div class="option-letter">D</div>
-                                <div class="option-text">民族統一問題</div>
+                                <div class="option-text">政府官員</div>
                             </div>
                         </div>
                         
                         <button class="show-answer-btn">顯示答案</button>
                         <div class="answer-container">
-                            <div class="answer-text">正確答案：B. 帝國主義擴張與同盟體系對立</div>
+                            <div class="answer-text">正確答案：A. 戰亂地區的人民</div>
                         </div>
                     </div>
                     
                     <!-- 選擇題 4 -->
                     <div class="question-item">
                         <div class="question-header">
-                            <div class="question-number">17</div>
+                            <div class="question-number">19</div>
                             <div class="question-section">選擇題</div>
                         </div>
                         <div class="question-text">以下哪個組織主要負責為戰亂地區提供醫療援助？</div>
