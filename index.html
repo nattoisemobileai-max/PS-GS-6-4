@@ -109,8 +109,9 @@
         }
 
         .logo {
-            width: 120px;
-            height: auto;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
@@ -150,7 +151,6 @@
         .sentence-en {
             font-size: 1.4rem;
             color: #666;
-            font-style: italic;
             text-align: center;
             margin-bottom: 15px;
             padding: 10px;
@@ -350,6 +350,17 @@
             display: block;
         }
 
+        /* Question Type Indicator */
+        .question-type {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .sentence {
@@ -403,7 +414,7 @@
 <body>
     <header>
         <h1><i class="fas fa-graduation-cap"></i> 小六第6冊第4課 - 戰爭與和平</h1>
-        <div class="lesson-info">常識問答比賽：將英文句子翻譯成西班牙文</div>
+        <div class="lesson-info">常識問答比賽：根據課文內容回答問題</div>
         
         <div class="progress-container">
             <div class="progress-bar" id="progressBar"></div>
@@ -413,24 +424,24 @@
 
     <div class="main-container">
         <div class="logo-container">
-            <div class="logo">📚 戰爭與和平問答比賽</div>
+            <div class="logo">📚 戰爭與和平常識問答</div>
         </div>
 
         <div class="speech-bubble">
-            <div class="sentence" id="sentence">War is a method of resolving disputes through force.</div>
-            <div class="sentence-en" id="sentenceTranslation">戰爭是一種以武力解決紛爭的方法。</div>
-            <div class="hint">點擊下方單詞來組成正確的西班牙文翻譯。不是所有單詞都會用到。</div>
+            <div class="question-type">問答題</div>
+            <div class="sentence" id="sentence">戰爭是甚麼？</div>
+            <div class="hint">點擊下方詞語來組成正確答案。不是所有詞語都會用到。</div>
         </div>
 
         <div class="destination-area" id="destinationArea">
-            <!-- 已選單詞將出現在這裡 -->
-            <div class="placeholder">點擊下方單詞來組成句子</div>
+            <!-- 已選詞語將出現在這裡 -->
+            <div class="placeholder">點擊下方詞語來組成答案</div>
         </div>
 
         <div class="word-bank">
-            <div class="word-bank-title"><i class="fas fa-list"></i> 西班牙文單詞庫</div>
+            <div class="word-bank-title"><i class="fas fa-list"></i> 詞語庫</div>
             <div class="words-container" id="wordsContainer">
-                <!-- 單詞將由JavaScript動態生成 -->
+                <!-- 詞語將由JavaScript動態生成 -->
             </div>
         </div>
 
@@ -447,77 +458,67 @@
     </footer>
 
     <script>
-        // 練習數據 - 基於《戰爭與和平》課文內容
+        // 練習數據 - 基於《戰爭與和平》課文內容的自問自答
         const exercises = [
             {
                 id: 1,
-                english: "War is a method of resolving disputes through force.",
-                chinese: "戰爭是一種以武力解決紛爭的方法。",
-                spanish: ["La", "guerra", "es", "un", "método", "para", "resolver", "disputas", "con", "fuerza"],
-                extraWords: ["conflicto", "paz", "diplomacia", "violencia"]
+                question: "戰爭是甚麼？",
+                answer: ["戰爭", "是", "一種", "以", "武力", "解決", "紛爭", "的", "方法"],
+                extraWords: ["和平", "談判", "對話", "外交"]
             },
             {
                 id: 2,
-                english: "Territorial disputes are a major cause of war.",
-                chinese: "領土紛爭是戰爭的主要原因之一。",
-                spanish: ["Las", "disputas", "territoriales", "son", "una", "causa", "principal", "de", "guerra"],
-                extraWords: ["económicas", "recursos", "petróleo", "religiosas"]
+                question: "為甚麼會爆發戰爭？",
+                answer: ["戰爭", "爆發", "的", "原因", "包括", "領土", "紛爭", "經濟", "利益", "宗教", "衝突", "勢力", "擴張"],
+                extraWords: ["文化", "交流", "貿易", "合作", "體育", "競賽"]
             },
             {
                 id: 3,
-                english: "War causes the loss of human lives and destruction of infrastructure.",
-                chinese: "戰爭導致人命傷亡和基礎設施破壞。",
-                spanish: ["La", "guerra", "causa", "pérdida", "de", "vidas", "humanas", "y", "destrucción", "de", "infraestructura"],
-                extraWords: ["edificios", "carreteras", "hospitales", "escuelas"]
+                question: "戰爭帶來哪些短期影響？",
+                answer: ["短期", "影響", "包括", "人命", "傷亡", "基礎", "設施", "破壞"],
+                extraWords: ["經濟", "發展", "文化交流", "教育", "進步", "科技", "創新"]
             },
             {
                 id: 4,
-                english: "Landmines remain a threat long after wars end.",
-                chinese: "地雷在戰爭結束後仍然構成長期威脅。",
-                spanish: ["Las", "minas", "terrestres", "siguen", "siendo", "una", "amenaza", "mucho", "después", "de", "las", "guerras"],
-                extraWords: ["bombas", "explosivos", "peligro", "seguridad"]
+                question: "戰爭帶來哪些長期影響？",
+                answer: ["長期", "影響", "包括", "地雷", "持續", "威脅", "土地", "荒廢", "難民", "流離失所", "心靈", "創傷"],
+                extraWords: ["經濟", "繁榮", "人口", "增長", "城市", "發展", "環境", "美化"]
             },
             {
                 id: 5,
-                english: "Refugees are forced to leave their homes due to war.",
-                chinese: "難民因戰爭被迫離開家園。",
-                spanish: ["Los", "refugiados", "se", "ven", "obligados", "a", "abandonar", "sus", "hogares", "debido", "a", "la", "guerra"],
-                extraWords: ["inmigrantes", "desplazados", "país", "nación"]
+                question: "請舉出近百年來的一些重要戰爭。",
+                answer: ["第一", "次", "世界", "大戰", "第二", "次", "世界", "大戰", "南北", "韓", "戰爭", "兩伊", "戰爭", "越南", "戰爭", "伊拉克", "戰爭"],
+                extraWords: ["冷戰", "貿易戰", "文化戰", "體育", "賽事", "奧運", "會"]
             },
             {
                 id: 6,
-                english: "The United Nations works to maintain world peace.",
-                chinese: "聯合國致力於維護世界和平。",
-                spanish: ["Las", "Naciones", "Unidas", "trabajan", "para", "mantener", "la", "paz", "mundial"],
-                extraWords: ["organización", "internacional", "países", "miembros"]
+                question: "聯合國如何維護世界和平？",
+                answer: ["聯合國", "的", "主要", "工作", "包括", "監察", "武裝", "組織", "調解", "紛爭", "援助", "難民", "消除", "大", "殺傷力", "武器"],
+                extraWords: ["舉辦", "運動會", "推廣", "旅遊", "發展", "經濟", "貿易"]
             },
             {
                 id: 7,
-                english: "Doctors Without Borders provides medical aid in war zones.",
-                chinese: "無國界醫生在戰區提供醫療援助。",
-                spanish: ["Médicos", "Sin", "Fronteras", "proporciona", "ayuda", "médica", "en", "zonas", "de", "guerra"],
-                extraWords: ["hospitales", "móviles", "voluntarios", "emergencia"]
+                question: "無國界醫生的主要工作是甚麼？",
+                answer: ["無國界", "醫生", "提供", "醫療", "援助", "曾", "獲", "諾貝爾", "和平", "獎"],
+                extraWords: ["教育", "服務", "建築", "工程", "農業", "發展", "科技", "研發"]
             },
             {
                 id: 8,
-                english: "Peace requires international cooperation and mutual respect.",
-                chinese: "和平需要國際合作和相互尊重。",
-                spanish: ["La", "paz", "requiere", "cooperación", "internacional", "y", "respeto", "mutuo"],
-                extraWords: ["diálogo", "entendimiento", "colaboración", "armonía"]
+                question: "戰爭對難民有甚麼影響？",
+                answer: ["難民", "因", "戰爭", "被迫", "離開", "家園", "面對", "親人", "失散", "或", "離世", "承受", "心靈", "創傷"],
+                extraWords: ["獲得", "新", "機會", "學習", "新", "技能", "認識", "新", "朋友", "體驗", "新", "文化"]
             },
             {
                 id: 9,
-                english: "World War I lasted from 1914 to 1918.",
-                chinese: "第一次世界大戰從1914年持續到1918年。",
-                spanish: ["La", "Primera", "Guerra", "Mundial", "duró", "de", "1914", "a", "1918"],
-                extraWords: ["segunda", "1939", "1945", "conflicto"]
+                question: "怎樣才能避免戰爭？",
+                answer: ["避免", "戰爭", "需要", "國際", "間", "合作", "彼此", "尊重", "互諒", "互讓", "透過", "對話", "與", "外交", "手段", "解決", "紛爭"],
+                extraWords: ["武力", "威脅", "經濟", "制裁", "軍事", "演習", "間諜", "活動"]
             },
             {
                 id: 10,
-                english: "Dialogue and negotiation are better than violence.",
-                chinese: "對話和談判比暴力更好。",
-                spanish: ["El", "diálogo", "y", "la", "negociación", "son", "mejores", "que", "la", "violencia"],
-                extraWords: ["fuerza", "combate", "batalla", "confrontación"]
+                question: "本課總結中強調了哪些維護和平的原則？",
+                answer: ["本課", "強調", "任何", "紛爭", "都", "不應", "以", "武力", "解決", "國際", "組織", "應", "促進", "合作", "通過", "尊重", "理解", "與", "讓步", "來", "維護", "世界", "和平"],
+                extraWords: ["競爭", "對抗", "孤立", "制裁", "威脅", "報復", "懲罰"]
             }
         ];
 
@@ -528,7 +529,6 @@
 
         // DOM元素
         const sentenceElement = document.getElementById('sentence');
-        const sentenceTranslationElement = document.getElementById('sentenceTranslation');
         const destinationArea = document.getElementById('destinationArea');
         const wordsContainer = document.getElementById('wordsContainer');
         const checkBtn = document.getElementById('checkBtn');
@@ -554,31 +554,30 @@
             // 重置狀態
             selectedWords = [];
             wordElements = [];
-            destinationArea.innerHTML = '<div class="placeholder">點擊下方單詞來組成句子</div>';
+            destinationArea.innerHTML = '<div class="placeholder">點擊下方詞語來組成答案</div>';
             destinationArea.classList.remove('active');
             feedbackElement.className = 'feedback';
             feedbackElement.textContent = '';
             checkBtn.disabled = true;
             
-            // 更新句子
-            sentenceElement.textContent = exercise.english;
-            sentenceTranslationElement.textContent = exercise.chinese;
+            // 更新問題
+            sentenceElement.textContent = exercise.question;
             
-            // 創建單詞庫
+            // 創建詞語庫
             createWordBank(exercise);
         }
 
-        // 創建單詞庫
+        // 創建詞語庫
         function createWordBank(exercise) {
             wordsContainer.innerHTML = '';
             
-            // 合併正確單詞和額外單詞
-            const allWords = [...exercise.spanish, ...exercise.extraWords];
+            // 合併正確詞語和額外詞語
+            const allWords = [...exercise.answer, ...exercise.extraWords];
             
             // 隨機排序
             const shuffledWords = shuffleArray([...allWords]);
             
-            // 創建單詞元素
+            // 創建詞語元素
             shuffledWords.forEach(word => {
                 const wordElement = document.createElement('div');
                 wordElement.className = 'word-option';
@@ -594,18 +593,18 @@
             });
         }
 
-        // 選擇單詞
+        // 選擇詞語
         function selectWord(word, element) {
-            // 如果單詞已被使用，則忽略
+            // 如果詞語已被使用，則忽略
             if (element.classList.contains('used')) {
                 return;
             }
             
-            // 標記單詞為已使用
+            // 標記詞語為已使用
             element.classList.add('used');
             element.classList.add('selected');
             
-            // 添加到已選單詞列表
+            // 添加到已選詞語列表
             selectedWords.push(word);
             
             // 更新目標區域
@@ -633,12 +632,12 @@
             });
         }
 
-        // 取消選擇單詞
+        // 取消選擇詞語
         function deselectWord(index) {
-            // 從已選單詞中移除
+            // 從已選詞語中移除
             const removedWord = selectedWords.splice(index, 1)[0];
             
-            // 找到對應的單詞元素並恢復
+            // 找到對應的詞語元素並恢復
             const wordElement = wordElements.find(item => item.word === removedWord && item.element.classList.contains('used'));
             if (wordElement) {
                 wordElement.element.classList.remove('used');
@@ -647,7 +646,7 @@
             
             // 更新目標區域
             if (selectedWords.length === 0) {
-                destinationArea.innerHTML = '<div class="placeholder">點擊下方單詞來組成句子</div>';
+                destinationArea.innerHTML = '<div class="placeholder">點擊下方詞語來組成答案</div>';
                 destinationArea.classList.remove('active');
                 checkBtn.disabled = true;
             } else {
@@ -658,30 +657,36 @@
         // 檢查答案
         function checkAnswer() {
             const currentExercise = exercises[currentExerciseIndex];
-            const correctAnswer = currentExercise.spanish;
+            const correctAnswer = currentExercise.answer;
             
             // 檢查是否完全匹配
             const isCorrect = arraysEqual(selectedWords, correctAnswer);
             
             // 顯示反饋
             if (isCorrect) {
-                feedbackElement.textContent = '✓ 正確！翻譯完全正確。';
+                feedbackElement.textContent = '✓ 正確！答案完全正確。';
                 feedbackElement.className = 'feedback correct';
+                
+                // 顯示完整答案
+                const fullAnswer = correctAnswer.join('');
+                setTimeout(() => {
+                    feedbackElement.innerHTML += `<br><small>完整答案：${fullAnswer}</small>`;
+                }, 500);
                 
                 // 自動進入下一題
                 setTimeout(() => {
                     nextExercise();
-                }, 1500);
+                }, 2000);
             } else {
                 feedbackElement.textContent = '✗ 不正確。請再試一次。';
                 feedbackElement.className = 'feedback incorrect';
                 
-                // 標記錯誤的單詞
+                // 標記錯誤的詞語
                 markIncorrectWords(correctAnswer);
             }
         }
 
-        // 標記錯誤的單詞
+        // 標記錯誤的詞語
         function markIncorrectWords(correctAnswer) {
             const wordSlots = document.querySelectorAll('.word-slot');
             
