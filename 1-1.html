@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>急救知識挑戰賽 - Quizizz風格</title>
+    <title>費曼學習法 - 急救知識溫習系統</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #6c5ce7;
-            --secondary: #a29bfe;
-            --success: #00b894;
-            --danger: #d63031;
-            --warning: #fdcb6e;
-            --dark: #2d3436;
-            --light: #f5f6fa;
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --accent: #e74c3c;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --yellow: #f1c40f;
+            --purple: #9b59b6;
             --border-radius: 12px;
             --box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
@@ -27,10 +27,11 @@
         }
         
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
             padding: 20px;
             color: var(--dark);
+            line-height: 1.6;
         }
         
         .container {
@@ -38,152 +39,384 @@
             margin: 0 auto;
         }
         
-        /* 遊戲大廳 */
-        .lobby {
+        /* 標題樣式 */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .main-title {
+            color: var(--dark);
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .main-title i {
+            color: var(--accent);
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* 費曼學習法介紹 */
+        .feynman-intro {
             background-color: white;
             border-radius: var(--border-radius);
             padding: 40px;
-            box-shadow: var(--box-shadow);
-            text-align: center;
-            animation: fadeIn 0.5s ease-out;
-        }
-        
-        .game-title {
-            color: var(--primary);
-            font-size: 2.8rem;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        .game-title i {
-            color: var(--warning);
-        }
-        
-        .game-subtitle {
-            color: #666;
-            font-size: 1.2rem;
             margin-bottom: 40px;
+            box-shadow: var(--box-shadow);
         }
         
-        /* 玩家設置 */
-        .player-setup {
+        .feynman-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .step-card {
             background-color: var(--light);
             border-radius: var(--border-radius);
             padding: 30px;
-            margin-bottom: 30px;
-        }
-        
-        .player-input-container {
-            max-width: 500px;
-            margin: 0 auto 30px;
-        }
-        
-        .player-input {
-            width: 100%;
-            padding: 18px 25px;
-            font-size: 1.2rem;
-            border: 3px solid #ddd;
-            border-radius: 50px;
             text-align: center;
             transition: var(--transition);
+            border-left: 5px solid var(--primary);
         }
         
-        .player-input:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
-        }
-        
-        .avatar-selection {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-        }
-        
-        .avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 4px solid transparent;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: white;
-        }
-        
-        .avatar.selected {
-            border-color: var(--primary);
-            transform: scale(1.1);
-        }
-        
-        .avatar-1 { background-color: #ff7675; }
-        .avatar-2 { background-color: #74b9ff; }
-        .avatar-3 { background-color: #55efc4; }
-        .avatar-4 { background-color: #a29bfe; }
-        .avatar-5 { background-color: #fd79a8; }
-        .avatar-6 { background-color: #fdcb6e; }
-        
-        /* 遊戲模式選擇 */
-        .mode-selection {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin: 40px 0;
-        }
-        
-        .mode-card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 30px;
-            cursor: pointer;
-            transition: var(--transition);
-            border: 3px solid transparent;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .mode-card:hover {
+        .step-card:hover {
             transform: translateY(-10px);
-            border-color: var(--primary);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
         
-        .mode-icon {
-            font-size: 3rem;
-            color: var(--primary);
-            margin-bottom: 20px;
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 20px;
         }
         
-        .mode-title {
-            font-size: 1.8rem;
+        .step-title {
+            font-size: 1.4rem;
             color: var(--dark);
             margin-bottom: 15px;
         }
         
-        .mode-desc {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 20px;
+        /* 學習區域 */
+        .learning-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
         }
         
-        .mode-details {
+        @media (max-width: 900px) {
+            .learning-area {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .concept-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 35px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+        
+        .concept-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+        
+        /* 學習內容 */
+        .learning-content {
+            margin-bottom: 30px;
+        }
+        
+        .topic-item {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            border-left: 4px solid transparent;
+        }
+        
+        .topic-item:hover {
+            background-color: #e0e7ff;
+            border-left-color: var(--primary);
+        }
+        
+        .topic-item.active {
+            background-color: #e3f2fd;
+            border-left-color: var(--primary);
+        }
+        
+        .topic-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--dark);
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
-            color: #888;
-            font-size: 0.9rem;
+            align-items: center;
+        }
+        
+        .topic-desc {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        /* 詳細內容 */
+        .detail-content {
+            display: none;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-top: 20px;
+            border: 1px solid #eaeaea;
+        }
+        
+        .detail-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .detail-title {
+            color: var(--dark);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .key-points {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        
+        .key-points li {
+            margin-bottom: 10px;
+            color: #555;
+        }
+        
+        /* 教學模擬區 */
+        .teaching-area {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 35px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 40px;
+        }
+        
+        .teaching-prompt {
+            background-color: #e8f4fc;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--primary);
+        }
+        
+        .teaching-question {
+            font-size: 1.4rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+        
+        /* 錄音區 */
+        .recording-area {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .recording-controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .record-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: none;
+            background-color: var(--accent);
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .record-btn:hover {
+            background-color: #c0392b;
+            transform: scale(1.05);
+        }
+        
+        .record-btn.recording {
+            animation: pulse 1.5s infinite;
+            background-color: #c0392b;
+        }
+        
+        .play-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background-color: var(--secondary);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .play-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        .timer {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--dark);
+            margin: 20px 0;
+        }
+        
+        /* 筆記區 */
+        .notes-area {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 35px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 40px;
+        }
+        
+        .notes-input {
+            width: 100%;
+            height: 200px;
+            padding: 20px;
+            font-size: 1.1rem;
+            border: 2px solid #ddd;
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            resize: vertical;
+            transition: var(--transition);
+        }
+        
+        .notes-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        /* 測驗區 */
+        .quiz-area {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 35px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 40px;
+        }
+        
+        .quiz-question {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            color: var(--dark);
+        }
+        
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .quiz-option {
+            padding: 18px 25px;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            font-size: 1.1rem;
+        }
+        
+        .quiz-option:hover {
+            background-color: #e0e7ff;
+            border-color: var(--primary);
+        }
+        
+        .quiz-option.selected {
+            background-color: #e3f2fd;
+            border-color: var(--primary);
+        }
+        
+        .quiz-option.correct {
+            background-color: #d4edda;
+            border-color: var(--secondary);
+        }
+        
+        .quiz-option.incorrect {
+            background-color: #f8d7da;
+            border-color: var(--accent);
         }
         
         /* 按鈕樣式 */
         .btn {
-            padding: 16px 40px;
-            font-size: 1.2rem;
+            padding: 15px 35px;
+            font-size: 1.1rem;
             font-weight: bold;
             border: none;
             border-radius: 50px;
@@ -201,395 +434,59 @@
         }
         
         .btn-primary:hover {
-            background-color: #5b4bd8;
+            background-color: #2980b9;
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3);
-        }
-        
-        .btn-secondary {
-            background-color: var(--light);
-            color: var(--dark);
-        }
-        
-        .btn-secondary:hover {
-            background-color: #e1e2e6;
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.3);
         }
         
         .btn-success {
-            background-color: var(--success);
-            color: white;
-        }
-        
-        .btn-danger {
-            background-color: var(--danger);
-            color: white;
-        }
-        
-        .btn-large {
-            padding: 20px 50px;
-            font-size: 1.3rem;
-        }
-        
-        /* 遊戲介面 */
-        .game-interface {
-            display: none;
-            background-color: white;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: var(--box-shadow);
-        }
-        
-        .game-header {
-            background-color: var(--primary);
-            color: white;
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .player-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .player-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: white;
-        }
-        
-        .player-name {
-            font-size: 1.3rem;
-            font-weight: bold;
-        }
-        
-        .game-stats {
-            display: flex;
-            gap: 30px;
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-        
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        
-        /* 遊戲主內容 */
-        .game-main {
-            padding: 40px;
-        }
-        
-        .question-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-        
-        .question-counter {
-            font-size: 1.2rem;
-            color: var(--primary);
-            font-weight: bold;
-            background-color: var(--light);
-            padding: 8px 20px;
-            border-radius: 50px;
-        }
-        
-        .timer-container {
-            position: relative;
-            width: 100px;
-            height: 100px;
-        }
-        
-        .timer-circle {
-            width: 100%;
-            height: 100%;
-            transform: rotate(-90deg);
-        }
-        
-        .timer-bg {
-            fill: none;
-            stroke: var(--light);
-            stroke-width: 8;
-        }
-        
-        .timer-progress {
-            fill: none;
-            stroke: var(--success);
-            stroke-width: 8;
-            stroke-linecap: round;
-            transition: stroke-dashoffset 1s linear;
-        }
-        
-        .timer-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--dark);
-        }
-        
-        .question-text {
-            font-size: 1.8rem;
-            line-height: 1.6;
-            margin-bottom: 40px;
-            padding: 30px;
-            background-color: var(--light);
-            border-radius: var(--border-radius);
-            text-align: center;
-        }
-        
-        /* 選項樣式 */
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-        
-        @media (max-width: 768px) {
-            .options-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .option {
-            padding: 25px;
-            background-color: white;
-            border: 3px solid #e0e0e0;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .option:hover {
-            border-color: var(--secondary);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-        }
-        
-        .option.selected {
-            border-color: var(--primary);
-            background-color: rgba(108, 92, 231, 0.05);
-        }
-        
-        .option.correct {
-            border-color: var(--success);
-            background-color: rgba(0, 184, 148, 0.05);
-        }
-        
-        .option.incorrect {
-            border-color: var(--danger);
-            background-color: rgba(214, 48, 49, 0.05);
-        }
-        
-        .option-letter {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-        
-        .option.selected .option-letter {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .option.correct .option-letter {
-            background-color: var(--success);
-            color: white;
-        }
-        
-        .option.incorrect .option-letter {
-            background-color: var(--danger);
-            color: white;
-        }
-        
-        /* 道具系統 */
-        .powerups {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .powerup-btn {
-            padding: 15px 25px;
-            background-color: var(--light);
-            border: none;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: bold;
-        }
-        
-        .powerup-btn:hover:not(:disabled) {
             background-color: var(--secondary);
             color: white;
         }
         
-        .powerup-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .btn-success:hover {
+            background-color: #27ae60;
         }
         
-        /* 結果頁面 */
-        .results-container {
-            display: none;
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 40px;
-            box-shadow: var(--box-shadow);
-            text-align: center;
+        .btn-warning {
+            background-color: var(--yellow);
+            color: var(--dark);
         }
         
-        .results-header {
-            margin-bottom: 40px;
+        .btn-warning:hover {
+            background-color: #f39c12;
         }
         
-        .results-title {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
-        
-        .score-display {
-            font-size: 4rem;
-            font-weight: bold;
-            color: var(--primary);
-            margin: 30px 0;
-        }
-        
-        .score-breakdown {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-        
-        .score-item {
+        /* 進度條 */
+        .progress-container {
             background-color: var(--light);
-            padding: 25px;
             border-radius: var(--border-radius);
-            text-align: center;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: var(--box-shadow);
         }
         
-        .score-value {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: var(--primary);
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background-color: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
             margin-bottom: 10px;
         }
         
-        .score-label {
-            color: #666;
-            font-size: 1.1rem;
-        }
-        
-        /* 排行榜 */
-        .leaderboard {
-            background-color: var(--light);
-            border-radius: var(--border-radius);
-            padding: 30px;
-            margin-top: 40px;
-        }
-        
-        .leaderboard-title {
-            font-size: 1.8rem;
-            color: var(--dark);
-            margin-bottom: 25px;
-            text-align: center;
-        }
-        
-        .leaderboard-list {
-            list-style: none;
-        }
-        
-        .leaderboard-item {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-            background-color: white;
-            border-radius: var(--border-radius);
-            margin-bottom: 15px;
-            transition: var(--transition);
-        }
-        
-        .leaderboard-item:hover {
-            transform: translateX(10px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .leaderboard-rank {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: var(--light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-right: 20px;
-            flex-shrink: 0;
-        }
-        
-        .leaderboard-rank-1 {
-            background-color: gold;
-            color: var(--dark);
-        }
-        
-        .leaderboard-rank-2 {
-            background-color: silver;
-            color: var(--dark);
-        }
-        
-        .leaderboard-rank-3 {
-            background-color: #cd7f32;
-            color: white;
-        }
-        
-        .leaderboard-player {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-grow: 1;
-        }
-        
-        .leaderboard-score {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary);
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            width: 0%;
         }
         
         /* 動畫 */
@@ -599,1089 +496,797 @@
         }
         
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(231, 76, 60, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
         }
         
-        @keyframes correctAnswer {
-            0% { background-color: rgba(0, 184, 148, 0.05); }
-            50% { background-color: rgba(0, 184, 148, 0.2); }
-            100% { background-color: rgba(0, 184, 148, 0.05); }
-        }
-        
-        .pulse {
-            animation: pulse 0.5s ease-in-out;
-        }
-        
-        .correct-animation {
-            animation: correctAnswer 1s ease-in-out;
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
         }
         
         /* 響應式調整 */
         @media (max-width: 768px) {
-            .game-title {
+            .main-title {
                 font-size: 2rem;
             }
             
-            .mode-selection {
+            .learning-area {
                 grid-template-columns: 1fr;
             }
             
-            .game-header {
+            .recording-controls {
                 flex-direction: column;
-                gap: 20px;
+                align-items: center;
             }
             
-            .game-stats {
-                width: 100%;
-                justify-content: space-around;
-            }
-            
-            .question-text {
-                font-size: 1.4rem;
-                padding: 20px;
+            .feynman-steps {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 遊戲大廳 -->
-        <div class="lobby" id="lobby">
-            <h1 class="game-title">
-                <i class="fas fa-first-aid"></i>
-                急救知識挑戰賽
+        <!-- 標題區 -->
+        <div class="header fade-in">
+            <h1 class="main-title">
+                <i class="fas fa-brain"></i>
+                費曼學習法 - 急救知識溫習系統
             </h1>
-            <p class="game-subtitle">測試你的急救知識，挑戰最高分數！</p>
-            
-            <div class="player-setup">
-                <h2 style="margin-bottom: 20px; color: var(--dark);">設置你的玩家資料</h2>
-                
-                <div class="player-input-container">
-                    <input type="text" class="player-input" id="playerName" 
-                           placeholder="輸入你的玩家名稱" maxlength="15">
-                </div>
-                
-                <h3 style="margin-bottom: 15px; color: var(--dark);">選擇你的頭像</h3>
-                <div class="avatar-selection">
-                    <div class="avatar avatar-1 selected" data-avatar="1" onclick="selectAvatar(1)">
-                        <i class="fas fa-user-md"></i>
-                    </div>
-                    <div class="avatar avatar-2" data-avatar="2" onclick="selectAvatar(2)">
-                        <i class="fas fa-user-nurse"></i>
-                    </div>
-                    <div class="avatar avatar-3" data-avatar="3" onclick="selectAvatar(3)">
-                        <i class="fas fa-ambulance"></i>
-                    </div>
-                    <div class="avatar avatar-4" data-avatar="4" onclick="selectAvatar(4)">
-                        <i class="fas fa-heartbeat"></i>
-                    </div>
-                    <div class="avatar avatar-5" data-avatar="5" onclick="selectAvatar(5)">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="avatar avatar-6" data-avatar="6" onclick="selectAvatar(6)">
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="mode-selection">
-                <div class="mode-card" onclick="startGame('classic')">
-                    <div class="mode-icon">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
-                    <h3 class="mode-title">經典模式</h3>
-                    <p class="mode-desc">標準問答模式，每題30秒，考驗你的急救知識掌握程度。</p>
-                    <div class="mode-details">
-                        <span><i class="fas fa-clock"></i> 每題30秒</span>
-                        <span><i class="fas fa-star"></i> 基礎分數</span>
-                    </div>
-                </div>
-                
-                <div class="mode-card" onclick="startGame('timeAttack')">
-                    <div class="mode-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3 class="mode-title">時間挑戰</h3>
-                    <p class="mode-desc">限時2分鐘，答得越快分數越高！挑戰你的反應速度。</p>
-                    <div class="mode-details">
-                        <span><i class="fas fa-stopwatch"></i> 限時2分鐘</span>
-                        <span><i class="fas fa-tachometer-alt"></i> 速度加分</span>
-                    </div>
-                </div>
-                
-                <div class="mode-card" onclick="startGame('survival')">
-                    <div class="mode-icon">
-                        <i class="fas fa-skull-crossbones"></i>
-                    </div>
-                    <h3 class="mode-title">生存模式</h3>
-                    <p class="mode-desc">答錯即結束！看你最多能連續答對多少題目。</p>
-                    <div class="mode-details">
-                        <span><i class="fas fa-heart"></i> 3次生命</span>
-                        <span><i class="fas fa-fire"></i> 連續加分</span>
-                    </div>
-                </div>
-            </div>
-            
-            <button class="btn btn-primary btn-large" onclick="viewLeaderboard()">
-                <i class="fas fa-trophy"></i> 查看排行榜
-            </button>
+            <p class="subtitle">
+                透過「以教為學」的方式，深入掌握急救知識。選擇一個主題，學習後嘗試教給別人，找出知識盲點並加強理解。
+            </p>
         </div>
         
-        <!-- 遊戲介面 -->
-        <div class="game-interface" id="gameInterface">
-            <div class="game-header">
-                <div class="player-info">
-                    <div class="player-avatar" id="playerAvatar">
-                        <i class="fas fa-user-md"></i>
-                    </div>
-                    <div>
-                        <div class="player-name" id="displayPlayerName">玩家</div>
-                        <div class="mode-name" id="displayModeName">經典模式</div>
-                    </div>
+        <!-- 費曼學習法介紹 -->
+        <div class="feynman-intro fade-in">
+            <h2 style="color: var(--dark); margin-bottom: 20px; font-size: 2rem;">什麼是費曼學習法？</h2>
+            <p style="color: #666; margin-bottom: 25px; font-size: 1.1rem;">
+                費曼學習法是一種高效的學習方法，由諾貝爾物理學獎得主理查德·費曼提出。核心思想是：<strong>如果你不能簡單地解釋一件事，你就沒有真正理解它。</strong>
+                這個方法通過四個步驟幫助你深入理解知識。
+            </p>
+            
+            <div class="feynman-steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">選擇概念</h3>
+                    <p>選擇一個你想要學習的急救知識主題</p>
                 </div>
                 
-                <div class="game-stats">
-                    <div class="stat-item">
-                        <div class="stat-label">分數</div>
-                        <div class="stat-value" id="currentScore">0</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-label">連擊</div>
-                        <div class="stat-value" id="comboCount">0</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-label">正確率</div>
-                        <div class="stat-value" id="accuracyRate">0%</div>
-                    </div>
-                    <div class="stat-item" id="livesContainer" style="display: none;">
-                        <div class="stat-label">生命</div>
-                        <div class="stat-value" id="livesCount">3</div>
-                    </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">教學解釋</h3>
+                    <p>想像你正在教一個完全不懂的人，用自己的話解釋</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">發現盲點</h3>
+                    <p>在解釋過程中發現自己的知識漏洞和不清楚的地方</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">簡化加強</h3>
+                    <p>重新學習薄弱環節，用更簡單的方式理解概念</p>
                 </div>
             </div>
-            
-            <div class="game-main">
-                <div class="question-header">
-                    <div class="question-counter" id="questionCounter">第 1 題，共 10 題</div>
-                    <div class="timer-container">
-                        <svg class="timer-circle" viewBox="0 0 100 100">
-                            <circle class="timer-bg" cx="50" cy="50" r="45"></circle>
-                            <circle class="timer-progress" cx="50" cy="50" r="45" 
-                                    stroke-dasharray="283" stroke-dashoffset="0"></circle>
-                        </svg>
-                        <div class="timer-text" id="timerText">30</div>
+        </div>
+        
+        <!-- 學習區域 -->
+        <div class="learning-area">
+            <!-- 左側：學習內容 -->
+            <div class="concept-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-book-medical"></i>
                     </div>
+                    <h2 class="card-title">急救知識主題</h2>
                 </div>
                 
-                <div class="question-text" id="questionText">
-                    問題將在這裡顯示
-                </div>
-                
-                <div class="options-grid" id="optionsGrid">
-                    <!-- 選項將由JavaScript動態生成 -->
-                </div>
-                
-                <div class="powerups">
-                    <button class="powerup-btn" id="powerup5050" onclick="usePowerup('5050')">
-                        <i class="fas fa-cut"></i> 50/50
-                        <span id="powerup5050Count">1</span>
-                    </button>
-                    <button class="powerup-btn" id="powerupTime" onclick="usePowerup('time')">
-                        <i class="fas fa-hourglass-half"></i> +10秒
-                        <span id="powerupTimeCount">1</span>
-                    </button>
-                    <button class="powerup-btn" id="powerupDouble" onclick="usePowerup('double')">
-                        <i class="fas fa-times-circle"></i> 雙倍分數
-                        <span id="powerupDoubleCount">1</span>
-                    </button>
+                <div class="learning-content">
+                    <div class="topic-item active" data-topic="basic-first-aid">
+                        <div class="topic-title">
+                            基本急救原則
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="topic-desc">學習急救的基本目的、步驟和注意事項</div>
+                    </div>
+                    
+                    <div class="detail-content active" id="detail-basic-first-aid">
+                        <h3 class="detail-title">基本急救原則</h3>
+                        <p><strong>急救目的：</strong>防止傷勢惡化、保存生命、促進康復</p>
+                        
+                        <h4 style="margin: 20px 0 10px; color: var(--dark);">急救黃金步驟：</h4>
+                        <div class="key-points">
+                            <li><strong>確保安全：</strong>先確保自己和傷者的安全環境</li>
+                            <li><strong>評估情況：</strong>檢查傷者意識、呼吸和傷勢</li>
+                            <li><strong>尋求協助：</strong>必要時立即報警或呼叫救護車</li>
+                            <li><strong>實施急救：</strong>根據情況進行適當的急救措施</li>
+                            <li><strong>持續觀察：</strong>監測傷者情況直到專業人員到達</li>
+                        </div>
+                        
+                        <h4 style="margin: 20px 0 10px; color: var(--dark);">重要原則：</h4>
+                        <div class="key-points">
+                            <li>先處理危及生命的狀況（如呼吸停止、大出血）</li>
+                            <li>不要移動骨折或脊椎受傷的傷者</li>
+                            <li>急救時應戴上手套等保護裝備</li>
+                            <li>保持冷靜，安撫傷者情緒</li>
+                        </div>
+                    </div>
+                    
+                    <div class="topic-item" data-topic="bleeding">
+                        <div class="topic-title">
+                            出血處理
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="topic-desc">學習處理流鼻血、傷口出血等情況</div>
+                    </div>
+                    
+                    <div class="detail-content" id="detail-bleeding">
+                        <h3 class="detail-title">出血處理方法</h3>
+                        
+                        <h4 style="margin: 20px 0 10px; color: var(--dark);">流鼻血處理：</h4>
+                        <div class="key-points">
+                            <li><strong>坐下頭前傾：</strong>坐下，頭微向前傾（不要仰頭）</li>
+                            <li><strong>捏住鼻翼：</strong>用手指捏住鼻骨下的柔軟部分</li>
+                            <li><strong>用口呼吸：</strong>用口呼吸，維持10-15分鐘</li>
+                            <li><strong>冷敷：</strong>可用冰袋敷在鼻樑和額頭</li>
+                            <li><strong>就醫：</strong>如果流血持續20分鐘以上，應就醫</li>
+                        </div>
+                        
+                        <h4 style="margin: 20px 0 10px; color: var(--dark);">傷口出血處理：</h4>
+                        <div class="key-points">
+                            <li><strong>直接加壓：</strong>用清潔敷料直接加壓傷口</li>
+                            <li><strong>抬高傷肢：</strong>抬高受傷部位（如無骨折）</li>
+                            <li><strong>包紮固定：</strong>用繃帶包紮固定敷料</li>
+                            <li><strong>就醫：</strong>嚴重出血應立即就醫</li>
+                        </div>
+                    </div>
+                    
+                    <div class="topic-item" data-topic="burns">
+                        <div class="topic-title">
+                            燒傷燙傷處理
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="topic-desc">學習處理輕微燒傷、燙傷的方法</div>
+                    </div>
+                    
+                    <div class="detail-content" id="detail-burns">
+                        <h3 class="detail-title">燒傷燙傷處理</h3>
+                        
+                        <h4 style="margin: 20px 0 10px; color: var(--dark);">輕微燒傷處理（沖、脫、泡、蓋、送）：</h4>
+                        <div class="key-points">
+                            <li><strong>沖：</strong>立即用冷水沖洗傷處10-20分鐘</li>
+                            <li><strong>脫：</strong>輕輕除去傷處衣物（勿強行撕除）</li>
+                            <li><strong>泡：</strong>將傷處浸泡在冷水中減輕疼痛</li>
+                            <li><strong>蓋：</strong>用清潔敷料或保鮮膜覆蓋傷口</li>
+                            <li><strong>送：</strong>嚴重燒傷應立即送醫</li>
+                        </div>
+                        
+                        <h4 style="margin: 20px 0 10px; color: var(--dark);">注意事項：</h4>
+                        <div class="key-points">
+                            <li><strong>切勿：</strong>塗抹牙膏、醬油、藥膏等物質</li>
+                            <li><strong>切勿：</strong>刺破水泡</li>
+                            <li><strong>切勿：</strong>使用冰塊直接敷傷處</li>
+                            <li><strong>切勿：</strong>用黏性敷料緊貼傷口</li>
+                        </div>
+                    </div>
+                    
+                    <div class="topic-item" data-topic="fainting">
+                        <div class="topic-title">
+                            昏厥處理
+                            <i class="fas fa-procedures"></i>
+                        </div>
+                        <div class="topic-desc">學習處理昏厥、休克等緊急情況</div>
+                    </div>
+                    
+                    <div class="detail-content" id="detail-fainting">
+                        <h3 class="detail-title">昏厥處理方法</h3>
+                        
+                        <h4 style="margin: 20px 0 10px; color: var(--dark);">昏厥急救步驟：</h4>
+                        <div class="key-points">
+                            <li><strong>確保安全：</strong>檢查環境，確保安全</li>
+                            <li><strong>評估意識：</strong>輕拍肩膀，詢問"你沒事吧？"</li>
+                            <li><strong>求救：</strong>如無反應，立即求救</li>
+                            <li><strong>平躺抬高：</strong>讓患者平躺，抬高腿部20-30厘米</li>
+                            <li><strong>鬆開衣物：</strong>鬆開頸部、胸部緊身衣物</li>
+                            <li><strong>保持通風：</strong>確保空氣流通，讓圍觀者散開</li>
+                            <li><strong>觀察等待：</strong>觀察患者呼吸，等待甦醒或救援</li>
+                        </div>
+                        
+                        <h4 style="margin: 20px 0 10px; color: var(--dark);">注意事項：</h4>
+                        <div class="key-points">
+                            <li>不要給昏厥患者餵食或灌水</li>
+                            <li>患者甦醒後，讓他休息一會兒再慢慢坐起</li>
+                            <li>如患者5分鐘內未甦醒，應立即送醫</li>
+                            <li>如有抽搐，保護頭部，勿強行約束</li>
+                        </div>
+                    </div>
+                    
+                    <div class="topic-item" data-topic="first-aid-kit">
+                        <div class="topic-title">
+                            急救箱使用
+                            <i class="fas fa-first-aid"></i>
+                        </div>
+                        <div class="topic-desc">學習急救箱內物品及其正確使用方法</div>
+                    </div>
+                    
+                    <div class="detail-content" id="detail-first-aid-kit">
+                        <h3 class="detail-title">急救箱物品與使用</h3>
+                        
+                        <h4 style="margin: 20px 0 10px; color: var(--dark);">急救箱基本物品：</h4>
+                        <div class="key-points">
+                            <li><strong>消毒膠布：</strong>覆蓋小傷口，防止感染</li>
+                            <li><strong>繃帶：</strong>固定敷料、包紮傷口、支持傷肢</li>
+                            <li><strong>消毒敷料：</strong>清潔傷口，吸收滲液</li>
+                            <li><strong>安全扣針：</strong>固定繃帶末端</li>
+                            <li><strong>剪刀：</strong>剪開衣物、繃帶</li>
+                            <li><strong>消毒藥水：</strong>清洗傷口（如生理鹽水）</li>
+                            <li><strong>手套：</strong>保護施救者，避免交叉感染</li>
+                            <li><strong>急救手冊：</strong>參考急救步驟</li>
+                        </div>
+                        
+                        <h4 style="margin: 20px 0 10px; color: var(--dark);">急救箱存放原則：</h4>
+                        <div class="key-points">
+                            <li>放在固定、容易看見的地方</li>
+                            <li>放在小孩不易觸及的地方</li>
+                            <li>避免陽光直射和潮濕環境</li>
+                            <li>定期檢查物品有效期</li>
+                            <li>全家人都要知道急救箱位置</li>
+                        </div>
+                    </div>
                 </div>
                 
                 <div style="text-align: center; margin-top: 30px;">
-                    <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" style="display: none;">
-                        <i class="fas fa-arrow-right"></i> 下一題
+                    <button class="btn btn-warning" id="learnCompleteBtn">
+                        <i class="fas fa-check-circle"></i> 我已學習此主題，開始教學
                     </button>
-                    <button class="btn btn-danger" onclick="quitGame()" style="margin-left: 15px;">
-                        <i class="fas fa-sign-out-alt"></i> 退出遊戲
-                    </button>
+                </div>
+            </div>
+            
+            <!-- 右側：教學模擬區 -->
+            <div class="concept-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h2 class="card-title">教學模擬區</h2>
+                </div>
+                
+                <div class="teaching-area">
+                    <div class="teaching-prompt">
+                        <h3 class="teaching-question" id="teachingQuestion">
+                            請解釋：什麼是急救的基本目的和黃金步驟？
+                        </h3>
+                        <p style="color: #666;">想像你正在教一位完全不懂急救的朋友，請用簡單易懂的語言解釋。</p>
+                    </div>
+                    
+                    <div class="recording-area">
+                        <h3 style="color: var(--dark); margin-bottom: 20px;">錄下你的解釋</h3>
+                        <p style="color: #666; margin-bottom: 20px;">錄音可以幫助你發現解釋不清楚的地方</p>
+                        
+                        <div class="timer" id="recordingTimer">00:00</div>
+                        
+                        <div class="recording-controls">
+                            <button class="record-btn" id="recordBtn">
+                                <i class="fas fa-microphone"></i>
+                            </button>
+                            
+                            <button class="play-btn" id="playBtn" disabled>
+                                <i class="fas fa-play"></i>
+                            </button>
+                            
+                            <button class="play-btn" id="stopBtn" disabled>
+                                <i class="fas fa-stop"></i>
+                            </button>
+                        </div>
+                        
+                        <p id="recordingStatus" style="color: #666; margin-top: 15px;">準備錄音...</p>
+                    </div>
+                </div>
+                
+                <div class="notes-area">
+                    <h3 style="color: var(--dark); margin-bottom: 15px;">
+                        <i class="fas fa-sticky-note"></i> 發現知識盲點
+                    </h3>
+                    <p style="color: #666; margin-bottom: 15px;">
+                        在教學過程中，你發現哪些地方解釋不清楚？哪些概念需要加強學習？
+                    </p>
+                    
+                    <textarea class="notes-input" id="knowledgeGaps" 
+                              placeholder="例如：我不太確定燒傷處理的具體時間... 我忘記了急救箱應該放在哪裡..."></textarea>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="btn btn-success" id="saveNotesBtn">
+                            <i class="fas fa-save"></i> 保存知識盲點
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
         
-        <!-- 結果頁面 -->
-        <div class="results-container" id="resultsContainer">
-            <div class="results-header">
-                <h1 class="results-title">測驗完成！</h1>
-                <p>你已經完成了急救知識挑戰賽</p>
+        <!-- 進度條 -->
+        <div class="progress-container fade-in">
+            <div class="progress-header">
+                <h3 style="color: var(--dark);">費曼學習法進度</h3>
+                <span id="progressPercentage">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.9rem; color: #666;">
+                <span>選擇概念</span>
+                <span>教學解釋</span>
+                <span>發現盲點</span>
+                <span>簡化加強</span>
+            </div>
+        </div>
+        
+        <!-- 測驗區 -->
+        <div class="quiz-area fade-in">
+            <div class="card-header" style="margin-bottom: 25px;">
+                <div class="card-icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <h2 class="card-title">知識測驗</h2>
             </div>
             
-            <div class="score-display" id="finalScoreDisplay">0</div>
-            
-            <div class="score-breakdown">
-                <div class="score-item">
-                    <div class="score-value" id="finalCorrectAnswers">0/0</div>
-                    <div class="score-label">正確答案</div>
+            <div id="quizContent">
+                <div class="quiz-question" id="quizQuestion">
+                    急救的主要目的是什麼？
                 </div>
-                <div class="score-item">
-                    <div class="score-value" id="finalAccuracy">0%</div>
-                    <div class="score-label">正確率</div>
+                
+                <div class="quiz-options" id="quizOptions">
+                    <!-- 選項將由JavaScript動態生成 -->
                 </div>
-                <div class="score-item">
-                    <div class="score-value" id="finalTime">0s</div>
-                    <div class="score-label">用時</div>
+                
+                <div id="quizExplanation" style="display: none; background-color: #e8f4fc; padding: 20px; border-radius: var(--border-radius); margin-bottom: 20px;">
+                    <h4 style="color: var(--dark); margin-bottom: 10px;">解釋：</h4>
+                    <p id="explanationText"></p>
                 </div>
-                <div class="score-item">
-                    <div class="score-value" id="finalCombo">0</div>
-                    <div class="score-label">最高連擊</div>
+                
+                <div style="text-align: center;">
+                    <button class="btn btn-primary" id="nextQuizBtn">
+                        下一題 <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="btn btn-warning" id="retryQuizBtn" style="margin-left: 15px; display: none;">
+                        <i class="fas fa-redo"></i> 重新測驗
+                    </button>
                 </div>
             </div>
             
-            <div class="leaderboard">
-                <h2 class="leaderboard-title">排行榜</h2>
-                <ul class="leaderboard-list" id="leaderboardList">
-                    <!-- 排行榜項目將由JavaScript動態生成 -->
-                </ul>
-            </div>
-            
-            <div style="margin-top: 40px;">
-                <button class="btn btn-primary btn-large" onclick="playAgain()">
-                    <i class="fas fa-redo"></i> 再玩一次
-                </button>
-                <button class="btn btn-secondary" onclick="backToLobby()" style="margin-left: 20px;">
-                    <i class="fas fa-home"></i> 返回大廳
+            <div id="quizResults" style="display: none; text-align: center;">
+                <div style="font-size: 1.8rem; color: var(--primary); margin: 30px 0;">
+                    <i class="fas fa-trophy"></i> 測驗完成！
+                </div>
+                <div style="font-size: 3rem; font-weight: bold; color: var(--primary); margin: 20px 0;" id="quizScore">
+                    0/0
+                </div>
+                <p style="color: #666; margin-bottom: 30px;">你已經完成了費曼學習法的完整循環！</p>
+                <button class="btn btn-primary" id="restartLearningBtn">
+                    <i class="fas fa-redo"></i> 學習下一個主題
                 </button>
             </div>
         </div>
     </div>
 
     <script>
-        // 遊戲數據庫
-        const questionBank = [
-            {
-                question: "如患者進行簡單急救後情況仍未見改善，應該怎麼做？",
-                options: [
-                    "繼續嘗試同樣的急救方法",
-                    "立即求助或報警召喚救護車",
-                    "讓患者休息一會",
-                    "上網查詢更多急救方法"
-                ],
-                correct: 1,
-                explanation: "正確答案是立即求助或報警召喚救護車。如果急救無效，應立即尋求專業醫療協助。"
-            },
-            {
-                question: "流鼻血時，我們應該怎麼做？",
-                options: [
-                    "仰頭防止血液流出",
-                    "坐下，頭微向前傾，用手指捏著鼻骨下的柔軟部分",
-                    "用冰塊直接敷在鼻子上",
-                    "立即躺下休息"
-                ],
-                correct: 1,
-                explanation: "正確做法是坐下，頭微向前傾，用手指捏著鼻骨下的柔軟部分，用口呼吸，維持10分鐘。"
-            },
-            {
-                question: "香港的緊急救援服務主要由哪個部門提供？",
-                options: [
-                    "警務處",
-                    "消防處", 
-                    "醫院管理局",
-                    "醫療輔助隊"
-                ],
-                correct: 1,
-                explanation: "香港的緊急救援服務主要由消防處提供，他們負責救護車服務和緊急救援。"
-            },
-            {
-                question: "處理輕微燒傷的正確方法是什麼？",
-                options: [
-                    "塗抹牙膏或醬油",
-                    "用冷水沖洗傷處10分鐘",
-                    "立即刺破水泡",
-                    "用繃帶緊緊包紮"
-                ],
-                correct: 1,
-                explanation: "輕微燒傷應立即用冷水沖洗至少10分鐘，可以減輕疼痛和防止傷勢惡化。"
-            },
-            {
-                question: "急救箱不應該放在什麼地方？",
-                options: [
-                    "固定的地方",
-                    "小孩不輕易觸及的地方",
-                    "潮濕不通風的地方",
-                    "容易看見的地方"
-                ],
-                correct: 2,
-                explanation: "急救箱不應放在潮濕不通風的地方，以免藥物和用品變質。"
-            },
-            {
-                question: "撞傷後出現什麼徵狀適宜進行冷敷？",
-                options: [
-                    "紅、腫、痛、熱",
-                    "流血、骨折、昏迷",
-                    "發燒、咳嗽、流鼻水",
-                    "頭暈、嘔吐、腹瀉"
-                ],
-                correct: 0,
-                explanation: "撞傷後出現瘀、腫、痛、熱的徵狀時，適宜進行冷敷以減輕腫痛。"
-            },
-            {
-                question: "急救的主要目的是什麼？",
-                options: [
-                    "完全治癒傷者",
-                    "防止傷勢惡化、保存生命、促進康復",
-                    "取代專業醫療",
-                    "展示急救技能"
-                ],
-                correct: 1,
-                explanation: "急救的主要目的是防止傷勢惡化、保存傷者生命，以及促進康復。"
-            },
-            {
-                question: "處理熱衰竭的正確方法是什麼？",
-                options: [
-                    "給患者喝冰水",
-                    "讓患者曬太陽",
-                    "幫患者散熱，移到陰涼處",
-                    "給患者蓋毛毯"
-                ],
-                correct: 2,
-                explanation: "處理熱衰竭應幫患者散熱，移到陰涼處，補充水分（不要喝冰水）。"
-            },
-            {
-                question: "火警時應帶備什麼逃生用品？（多選題）",
-                options: [
-                    "濕毛巾、手電筒、哨子",
-                    "貴重物品、手機、錢包",
-                    "書本、玩具、零食",
-                    "水、食物、衣物"
-                ],
-                correct: 0,
-                explanation: "火警逃生三寶是濕毛巾（防煙）、手電筒（照明）、哨子（求救）。"
-            },
-            {
-                question: "懷疑氣體泄漏時，應該怎麼做？",
-                options: [
-                    "開燈檢查",
-                    "立即關掉供氣總掣，打開窗戶",
-                    "點燃火柴檢查",
-                    "關閉所有門窗"
-                ],
-                correct: 1,
-                explanation: "懷疑氣體泄漏時，切勿開關電器，應立即關掉供氣總掣，打開窗戶通風。"
-            },
-            {
-                question: "急救時應該戴上什麼保護裝備？",
-                options: [
-                    "太陽眼鏡",
-                    "消毒手套",
-                    "帽子",
-                    "口罩"
-                ],
-                correct: 1,
-                explanation: "急救時應戴上消毒手套，以避免直接接觸傷者的傷口和分泌物。"
-            },
-            {
-                question: "以下哪項是急救箱內應有的物品？",
-                options: [
-                    "漂白水",
-                    "糖果",
-                    "消毒膠布",
-                    "剪刀（非醫療用）"
-                ],
-                correct: 2,
-                explanation: "消毒膠布是急救箱的基本配備，用於覆蓋小傷口。"
-            },
-            {
-                question: "昏厥時的正確處理方法是什麼？",
-                options: [
-                    "圍觀患者",
-                    "抬高患者的腿部",
-                    "拍打患者臉部",
-                    "給患者喝水"
-                ],
-                correct: 1,
-                explanation: "昏厥時應讓患者躺下，抬高腿部，讓血液流向腦部。"
-            },
-            {
-                question: "拉緊了的橡皮圈儲存了什麼能量？",
-                options: [
-                    "動能",
-                    "勢能（彈性勢能）",
-                    "熱能",
-                    "聲能"
-                ],
-                correct: 1,
-                explanation: "拉緊了的橡皮圈儲存了勢能（彈性勢能）。"
-            },
-            {
-                question: "能源標籤上哪個級別表示能源效益最佳？",
-                options: [
-                    "第5級",
-                    "第1級",
-                    "第3級",
-                    "沒有區別"
-                ],
-                correct: 1,
-                explanation: "能源標籤上第1級（綠色）表示能源效益最佳。"
-            }
-        ];
-        
-        // 遊戲狀態
-        let gameState = {
-            playerName: "",
-            playerAvatar: 1,
-            gameMode: "classic",
-            currentQuestionIndex: 0,
-            answeredQuestions: 0,
-            score: 0,
-            correctAnswers: 0,
-            totalQuestions: 10,
-            timeLeft: 30,
-            timerInterval: null,
-            combo: 0,
-            maxCombo: 0,
-            startTime: null,
-            selectedAnswer: null,
-            isAnswered: false,
-            powerups: {
-                "5050": 1,
-                "time": 1,
-                "double": 1
-            },
-            lives: 3,
-            questions: [],
-            usedPowerups: [],
-            // 新增：追蹤已回答的問題
-            answeredCorrectly: []
+        // 學習數據
+        const learningData = {
+            currentTopic: 'basic-first-aid',
+            progress: 0,
+            knowledgeGaps: [],
+            quizQuestions: [
+                {
+                    question: "急救的主要目的是什麼？",
+                    options: [
+                        "完全治癒傷者",
+                        "防止傷勢惡化、保存生命、促進康復", 
+                        "展示急救技能",
+                        "取代專業醫療"
+                    ],
+                    correct: 1,
+                    explanation: "急救的主要目的是防止傷勢惡化、保存傷者生命，以及促進康復。急救不是要完全治癒傷者，而是要為專業醫療爭取時間。"
+                },
+                {
+                    question: "流鼻血時的正確處理方法是什麼？",
+                    options: [
+                        "仰頭防止血液流出",
+                        "坐下，頭微向前傾，用手指捏著鼻骨下的柔軟部分",
+                        "用冰塊直接敷在鼻子上",
+                        "立即躺下休息"
+                    ],
+                    correct: 1,
+                    explanation: "正確做法是坐下，頭微向前傾，用手指捏著鼻骨下的柔軟部分，用口呼吸，維持10分鐘。仰頭會使血液倒流到喉嚨，可能引起嗆咳或嘔吐。"
+                },
+                {
+                    question: "處理輕微燒傷的正確步驟是什麼？",
+                    options: [
+                        "塗抹牙膏或醬油",
+                        "立即用冷水沖洗傷處10-20分鐘",
+                        "刺破水泡防止感染",
+                        "用繃帶緊緊包紮"
+                    ],
+                    correct: 1,
+                    explanation: "輕微燒傷應立即用冷水沖洗至少10分鐘，可以減輕疼痛、降低皮膚溫度、防止傷勢惡化。切勿塗抹牙膏、醬油等物質。"
+                },
+                {
+                    question: "急救箱不應該放在什麼地方？",
+                    options: [
+                        "固定的地方",
+                        "小孩不輕易觸及的地方", 
+                        "潮濕不通風的地方",
+                        "容易看見的地方"
+                    ],
+                    correct: 2,
+                    explanation: "急救箱不應放在潮濕不通風的地方，以免藥物和用品變質失效。應放在固定、乾燥、容易看見且小孩不易觸及的地方。"
+                },
+                {
+                    question: "昏厥時的正確處理方法是什麼？",
+                    options: [
+                        "圍觀患者，給予鼓勵",
+                        "讓患者平躺，抬高腿部",
+                        "拍打患者臉部使其清醒",
+                        "給患者喝水補充水分"
+                    ],
+                    correct: 1,
+                    explanation: "昏厥時應讓患者平躺，抬高腿部20-30厘米，讓血液回流到腦部。鬆開緊身衣物，確保空氣流通，不要給患者餵食或灌水。"
+                }
+            ],
+            currentQuizIndex: 0,
+            quizScore: 0
         };
         
+        // 錄音相關變數
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+        let recordingTime = 0;
+        let recordingTimer;
+        let audioBlob;
+        
         // DOM 元素
-        const lobby = document.getElementById('lobby');
-        const gameInterface = document.getElementById('gameInterface');
-        const resultsContainer = document.getElementById('resultsContainer');
+        const topicItems = document.querySelectorAll('.topic-item');
+        const detailContents = document.querySelectorAll('.detail-content');
+        const teachingQuestion = document.getElementById('teachingQuestion');
+        const recordBtn = document.getElementById('recordBtn');
+        const playBtn = document.getElementById('playBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const recordingTimerEl = document.getElementById('recordingTimer');
+        const recordingStatus = document.getElementById('recordingStatus');
+        const knowledgeGapsInput = document.getElementById('knowledgeGaps');
+        const progressFill = document.getElementById('progressFill');
+        const progressPercentage = document.getElementById('progressPercentage');
+        const quizQuestion = document.getElementById('quizQuestion');
+        const quizOptions = document.getElementById('quizOptions');
+        const quizExplanation = document.getElementById('quizExplanation');
+        const explanationText = document.getElementById('explanationText');
+        const nextQuizBtn = document.getElementById('nextQuizBtn');
+        const retryQuizBtn = document.getElementById('retryQuizBtn');
+        const quizContent = document.getElementById('quizContent');
+        const quizResults = document.getElementById('quizResults');
+        const quizScore = document.getElementById('quizScore');
         
-        // 選擇頭像
-        function selectAvatar(avatarNumber) {
-            document.querySelectorAll('.avatar').forEach(avatar => {
-                avatar.classList.remove('selected');
+        // 主題點擊事件
+        topicItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const topic = this.dataset.topic;
+                
+                // 更新當前主題
+                learningData.currentTopic = topic;
+                
+                // 更新所有主題的活動狀態
+                topicItems.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // 顯示對應的詳細內容
+                detailContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === `detail-${topic}`) {
+                        content.classList.add('active');
+                    }
+                });
+                
+                // 更新教學問題
+                updateTeachingQuestion(topic);
+                
+                // 重置進度
+                learningData.progress = 0;
+                updateProgress();
+                
+                // 重置測驗
+                resetQuiz();
             });
-            document.querySelector(`.avatar-${avatarNumber}`).classList.add('selected');
-            gameState.playerAvatar = avatarNumber;
-        }
+        });
         
-        // 開始遊戲
-        function startGame(mode) {
-            const playerName = document.getElementById('playerName').value.trim();
-            
-            if (!playerName) {
-                alert('請輸入玩家名稱！');
-                document.getElementById('playerName').focus();
-                return;
-            }
-            
-            // 設置遊戲狀態
-            gameState.playerName = playerName;
-            gameState.gameMode = mode;
-            gameState.currentQuestionIndex = 0;
-            gameState.answeredQuestions = 0;
-            gameState.score = 0;
-            gameState.correctAnswers = 0;
-            gameState.combo = 0;
-            gameState.maxCombo = 0;
-            gameState.selectedAnswer = null;
-            gameState.isAnswered = false;
-            gameState.startTime = new Date();
-            gameState.answeredCorrectly = []; // 重置正確答案記錄
-            
-            // 根據模式設置
-            switch(mode) {
-                case 'classic':
-                    gameState.totalQuestions = 10;
-                    gameState.timeLeft = 30;
-                    break;
-                case 'timeAttack':
-                    gameState.totalQuestions = 15;
-                    gameState.timeLeft = 120; // 總時間2分鐘
-                    break;
-                case 'survival':
-                    gameState.totalQuestions = 20; // 設定上限
-                    gameState.timeLeft = 20;
-                    gameState.lives = 3;
-                    break;
-            }
-            
-            // 重置道具
-            gameState.powerups = {
-                "5050": 1,
-                "time": 1,
-                "double": 1
+        // 更新教學問題
+        function updateTeachingQuestion(topic) {
+            const questions = {
+                'basic-first-aid': '請解釋：什麼是急救的基本目的和黃金步驟？',
+                'bleeding': '請解釋：處理流鼻血和傷口出血的正確方法是什麼？',
+                'burns': '請解釋：處理輕微燒傷的正確步驟是什麼？有哪些注意事項？',
+                'fainting': '請解釋：遇到有人昏厥時，應該如何處理？',
+                'first-aid-kit': '請解釋：急救箱應該包含哪些基本物品？存放時要注意什麼？'
             };
-            gameState.usedPowerups = [];
             
-            // 隨機選擇題目
-            gameState.questions = [...questionBank]
-                .sort(() => Math.random() - 0.5)
-                .slice(0, gameState.totalQuestions);
-            
-            // 更新顯示
-            document.getElementById('displayPlayerName').textContent = gameState.playerName;
-            document.getElementById('displayModeName').textContent = 
-                mode === 'classic' ? '經典模式' : 
-                mode === 'timeAttack' ? '時間挑戰' : '生存模式';
-            
-            // 更新頭像顯示
-            const avatarElement = document.getElementById('playerAvatar');
-            avatarElement.className = 'player-avatar';
-            avatarElement.classList.add(`avatar-${gameState.playerAvatar}`);
-            
-            // 顯示生命值（生存模式）
-            const livesContainer = document.getElementById('livesContainer');
-            if (mode === 'survival') {
-                livesContainer.style.display = 'block';
-                document.getElementById('livesCount').textContent = gameState.lives;
-            } else {
-                livesContainer.style.display = 'none';
-            }
-            
-            // 切換到遊戲介面
-            lobby.style.display = 'none';
-            gameInterface.style.display = 'block';
-            resultsContainer.style.display = 'none';
-            
-            // 載入第一題
-            loadQuestion();
-            startTimer();
+            teachingQuestion.textContent = questions[topic] || '請解釋這個急救知識主題';
         }
         
-        // 載入問題
-        function loadQuestion() {
-            // 修復：使用 answeredQuestions 來計算進度
-            const question = gameState.questions[gameState.currentQuestionIndex];
-            const optionsGrid = document.getElementById('optionsGrid');
+        // 完成學習按鈕
+        document.getElementById('learnCompleteBtn').addEventListener('click', function() {
+            // 更新進度到第二步
+            learningData.progress = 25;
+            updateProgress();
             
-            // 更新計數器 - 修復：顯示已回答的題數 + 1 / 總題數
-            const currentQuestionNumber = gameState.answeredQuestions + 1;
-            document.getElementById('questionCounter').textContent = 
-                `第 ${currentQuestionNumber} 題，共 ${gameState.totalQuestions} 題`;
+            // 更新教學問題
+            updateTeachingQuestion(learningData.currentTopic);
             
-            // 更新問題文本
-            document.getElementById('questionText').textContent = question.question;
+            // 提示開始教學
+            alert('太好了！現在請嘗試用自己的話解釋這個主題。點擊錄音按鈕開始錄製你的解釋。');
             
-            // 清空選項
-            optionsGrid.innerHTML = '';
+            // 啟用錄音按鈕
+            recordBtn.disabled = false;
+        });
+        
+        // 錄音功能
+        recordBtn.addEventListener('click', async function() {
+            if (!isRecording) {
+                // 開始錄音
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    
+                    mediaRecorder.ondataavailable = event => {
+                        audioChunks.push(event.data);
+                    };
+                    
+                    mediaRecorder.onstop = () => {
+                        audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                        playBtn.disabled = false;
+                        stopBtn.disabled = false;
+                        recordingStatus.textContent = '錄音完成！點擊播放聆聽你的解釋';
+                        
+                        // 更新進度到第三步
+                        learningData.progress = 50;
+                        updateProgress();
+                    };
+                    
+                    audioChunks = [];
+                    mediaRecorder.start();
+                    isRecording = true;
+                    this.classList.add('recording');
+                    this.innerHTML = '<i class="fas fa-stop"></i>';
+                    recordingStatus.textContent = '正在錄音...';
+                    
+                    // 開始計時
+                    recordingTime = 0;
+                    recordingTimer = setInterval(() => {
+                        recordingTime++;
+                        const minutes = Math.floor(recordingTime / 60).toString().padStart(2, '0');
+                        const seconds = (recordingTime % 60).toString().padStart(2, '0');
+                        recordingTimerEl.textContent = `${minutes}:${seconds}`;
+                    }, 1000);
+                    
+                } catch (error) {
+                    console.error('錄音失敗:', error);
+                    alert('無法訪問麥克風，請確保已授予麥克風權限。');
+                }
+            } else {
+                // 停止錄音
+                mediaRecorder.stop();
+                isRecording = false;
+                this.classList.remove('recording');
+                this.innerHTML = '<i class="fas fa-microphone"></i>';
+                clearInterval(recordingTimer);
+                
+                // 停止所有音軌
+                mediaRecorder.stream.getTracks().forEach(track => track.stop());
+            }
+        });
+        
+        // 播放錄音
+        playBtn.addEventListener('click', function() {
+            if (audioBlob) {
+                const audioUrl = URL.createObjectURL(audioBlob);
+                const audio = new Audio(audioUrl);
+                audio.play();
+                
+                audio.onended = () => {
+                    URL.revokeObjectURL(audioUrl);
+                };
+            }
+        });
+        
+        // 停止播放
+        stopBtn.addEventListener('click', function() {
+            // 目前實現較簡單，實際應用中可以添加更多控制
+            alert('聆聽完你的解釋後，請在下方筆記區記錄你發現的知識盲點。');
+        });
+        
+        // 保存知識盲點
+        document.getElementById('saveNotesBtn').addEventListener('click', function() {
+            const gaps = knowledgeGapsInput.value.trim();
+            
+            if (gaps) {
+                // 保存到學習數據
+                learningData.knowledgeGaps.push({
+                    topic: learningData.currentTopic,
+                    gaps: gaps,
+                    date: new Date().toISOString()
+                });
+                
+                // 更新進度到第四步
+                learningData.progress = 75;
+                updateProgress();
+                
+                // 提示
+                alert('知識盲點已保存！現在請重新學習這些薄弱環節，然後進行測驗檢驗你的理解。');
+                
+                // 清空輸入框
+                knowledgeGapsInput.value = '';
+                
+                // 顯示測驗
+                loadQuizQuestion();
+            } else {
+                alert('請先記錄你發現的知識盲點！');
+            }
+        });
+        
+        // 更新進度條
+        function updateProgress() {
+            progressFill.style.width = `${learningData.progress}%`;
+            progressPercentage.textContent = `${learningData.progress}%`;
+        }
+        
+        // 載入測驗題目
+        function loadQuizQuestion() {
+            const question = learningData.quizQuestions[learningData.currentQuizIndex];
+            
+            quizQuestion.textContent = question.question;
+            quizOptions.innerHTML = '';
             
             // 生成選項
-            const letters = ['A', 'B', 'C', 'D'];
             question.options.forEach((option, index) => {
-                const optionElement = document.createElement('div');
-                optionElement.className = 'option';
-                optionElement.innerHTML = `
-                    <div class="option-letter">${letters[index]}</div>
-                    <div class="option-text">${option}</div>
-                `;
-                optionElement.dataset.index = index;
-                optionElement.onclick = () => selectAnswer(index);
-                optionsGrid.appendChild(optionElement);
+                const optionEl = document.createElement('div');
+                optionEl.className = 'quiz-option';
+                optionEl.textContent = option;
+                optionEl.dataset.index = index;
+                optionEl.addEventListener('click', () => selectQuizOption(index));
+                quizOptions.appendChild(optionEl);
             });
             
-            // 更新遊戲統計
-            updateStats();
+            // 隱藏解釋
+            quizExplanation.style.display = 'none';
             
-            // 重置狀態
-            gameState.selectedAnswer = null;
-            gameState.isAnswered = false;
-            document.getElementById('nextBtn').style.display = 'none';
-            
-            // 如果是時間挑戰模式，更新計時器顯示
-            if (gameState.gameMode === 'timeAttack') {
-                document.getElementById('timerText').textContent = gameState.timeLeft;
-                updateTimerDisplay();
-            }
+            // 顯示測驗區域
+            quizContent.style.display = 'block';
+            quizResults.style.display = 'none';
         }
         
-        // 選擇答案
-        function selectAnswer(index) {
-            if (gameState.isAnswered) return;
+        // 選擇測驗選項
+        function selectQuizOption(index) {
+            const options = document.querySelectorAll('.quiz-option');
+            const question = learningData.quizQuestions[learningData.currentQuizIndex];
             
-            const options = document.querySelectorAll('.option');
-            options.forEach(opt => opt.classList.remove('selected'));
+            // 移除所有選項的選中狀態
+            options.forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // 標記選中的選項
             options[index].classList.add('selected');
             
-            gameState.selectedAnswer = index;
-            gameState.isAnswered = true;
-            
-            // 檢查答案
-            const question = gameState.questions[gameState.currentQuestionIndex];
-            const isCorrect = index === question.correct;
-            
             // 顯示正確/錯誤
-            options.forEach((opt, i) => {
-                if (i === question.correct) {
-                    opt.classList.add('correct');
-                } else if (i === index && !isCorrect) {
-                    opt.classList.add('incorrect');
-                }
-            });
-            
-            // 記錄已回答的問題
-            gameState.answeredQuestions++;
-            
-            // 計算分數
-            let points = 0;
-            if (isCorrect) {
-                // 基礎分數
-                points = 100;
-                
-                // 連擊加分
-                if (gameState.combo > 0) {
-                    points += gameState.combo * 20;
-                }
-                
-                // 時間加分（剩餘時間越多，分數越高）
-                if (gameState.gameMode === 'classic') {
-                    points += Math.floor(gameState.timeLeft * 2);
-                }
-                
-                // 雙倍分數道具
-                if (gameState.usedPowerups.includes('double')) {
-                    points *= 2;
-                }
-                
-                // 更新狀態
-                gameState.score += points;
-                gameState.correctAnswers++;
-                gameState.combo++;
-                gameState.maxCombo = Math.max(gameState.maxCombo, gameState.combo);
-                gameState.answeredCorrectly.push(true); // 記錄正確答案
-                
-                // 正確動畫
-                document.getElementById('questionText').classList.add('correct-animation');
-                setTimeout(() => {
-                    document.getElementById('questionText').classList.remove('correct-animation');
-                }, 1000);
+            if (index === question.correct) {
+                options[index].classList.add('correct');
+                learningData.quizScore++;
             } else {
-                // 答錯處理
-                gameState.combo = 0;
-                gameState.answeredCorrectly.push(false); // 記錄錯誤答案
-                
-                // 生存模式扣生命
-                if (gameState.gameMode === 'survival') {
-                    gameState.lives--;
-                    document.getElementById('livesCount').textContent = gameState.lives;
-                    
-                    if (gameState.lives <= 0) {
-                        setTimeout(() => endGame(), 1500);
-                        return;
-                    }
-                }
+                options[index].classList.add('incorrect');
+                options[question.correct].classList.add('correct');
             }
             
-            // 更新統計
-            updateStats();
+            // 顯示解釋
+            explanationText.textContent = question.explanation;
+            quizExplanation.style.display = 'block';
             
-            // 顯示下一題按鈕
-            document.getElementById('nextBtn').style.display = 'inline-block';
-            
-            // 停止計時器（經典和生存模式）
-            if (gameState.gameMode !== 'timeAttack') {
-                clearInterval(gameState.timerInterval);
-            }
-        }
-        
-        // 更新統計顯示
-        function updateStats() {
-            document.getElementById('currentScore').textContent = gameState.score;
-            document.getElementById('comboCount').textContent = gameState.combo;
-            
-            // 修復正確率計算
-            const answeredCount = gameState.answeredQuestions;
-            const accuracy = answeredCount > 0 ? 
-                Math.round((gameState.correctAnswers / answeredCount) * 100) : 0;
-            document.getElementById('accuracyRate').textContent = `${accuracy}%`;
-            
-            // 更新道具計數
-            document.getElementById('powerup5050Count').textContent = gameState.powerups["5050"];
-            document.getElementById('powerupTimeCount').textContent = gameState.powerups["time"];
-            document.getElementById('powerupDoubleCount').textContent = gameState.powerups["double"];
-            
-            // 禁用已用完的道具
-            document.getElementById('powerup5050').disabled = gameState.powerups["5050"] <= 0;
-            document.getElementById('powerupTime').disabled = gameState.powerups["time"] <= 0;
-            document.getElementById('powerupDouble').disabled = gameState.powerups["double"] <= 0;
-        }
-        
-        // 使用道具
-        function usePowerup(type) {
-            if (gameState.powerups[type] <= 0 || gameState.isAnswered) return;
-            
-            switch(type) {
-                case '5050':
-                    use5050Powerup();
-                    break;
-                case 'time':
-                    useTimePowerup();
-                    break;
-                case 'double':
-                    useDoublePowerup();
-                    break;
-            }
-            
-            gameState.powerups[type]--;
-            gameState.usedPowerups.push(type);
-            updateStats();
-        }
-        
-        // 50/50 道具
-        function use5050Powerup() {
-            const question = gameState.questions[gameState.currentQuestionIndex];
-            const options = document.querySelectorAll('.option');
-            const wrongOptions = [];
-            
-            // 找出錯誤選項
-            options.forEach((opt, index) => {
-                if (index !== question.correct) {
-                    wrongOptions.push(opt);
-                }
-            });
-            
-            // 隨機移除兩個錯誤選項
-            wrongOptions.sort(() => Math.random() - 0.5);
-            for (let i = 0; i < 2; i++) {
-                wrongOptions[i].style.opacity = '0.3';
-                wrongOptions[i].style.pointerEvents = 'none';
-            }
-        }
-        
-        // 時間道具
-        function useTimePowerup() {
-            if (gameState.gameMode === 'classic' || gameState.gameMode === 'survival') {
-                gameState.timeLeft += 10;
-                document.getElementById('timerText').textContent = gameState.timeLeft;
-                updateTimerDisplay();
-            } else if (gameState.gameMode === 'timeAttack') {
-                gameState.timeLeft += 10;
-                document.getElementById('timerText').textContent = gameState.timeLeft;
-            }
-        }
-        
-        // 雙倍分數道具
-        function useDoublePowerup() {
-            // 僅在視覺上提示
-            document.getElementById('currentScore').classList.add('pulse');
-            setTimeout(() => {
-                document.getElementById('currentScore').classList.remove('pulse');
-            }, 1000);
-        }
-        
-        // 計時器功能
-        function startTimer() {
-            if (gameState.gameMode === 'timeAttack') {
-                // 時間挑戰模式：總時間倒數
-                gameState.timerInterval = setInterval(() => {
-                    gameState.timeLeft--;
-                    document.getElementById('timerText').textContent = gameState.timeLeft;
-                    
-                    if (gameState.timeLeft <= 0) {
-                        endGame();
-                    }
-                }, 1000);
-            } else {
-                // 經典/生存模式：每題單獨計時
-                const totalTime = gameState.gameMode === 'survival' ? 20 : 30;
-                gameState.timeLeft = totalTime;
-                document.getElementById('timerText').textContent = gameState.timeLeft;
-                updateTimerDisplay();
-                
-                gameState.timerInterval = setInterval(() => {
-                    gameState.timeLeft--;
-                    document.getElementById('timerText').textContent = gameState.timeLeft;
-                    updateTimerDisplay();
-                    
-                    if (gameState.timeLeft <= 0) {
-                        clearInterval(gameState.timerInterval);
-                        if (!gameState.isAnswered) {
-                            // 時間到自動跳到下一題（算答錯）
-                            gameState.isAnswered = true;
-                            gameState.answeredQuestions++;
-                            gameState.combo = 0;
-                            gameState.answeredCorrectly.push(false);
-                            
-                            // 生存模式扣生命
-                            if (gameState.gameMode === 'survival') {
-                                gameState.lives--;
-                                document.getElementById('livesCount').textContent = gameState.lives;
-                                
-                                if (gameState.lives <= 0) {
-                                    setTimeout(() => endGame(), 1500);
-                                    return;
-                                }
-                            }
-                            
-                            // 顯示下一題按鈕
-                            document.getElementById('nextBtn').style.display = 'inline-block';
-                            updateStats();
-                        }
-                    }
-                }, 1000);
-            }
-        }
-        
-        // 更新計時器顯示
-        function updateTimerDisplay() {
-            const progress = document.querySelector('.timer-progress');
-            const totalTime = gameState.gameMode === 'survival' ? 20 : 30;
-            const offset = 283 * (1 - gameState.timeLeft / totalTime);
-            progress.style.strokeDashoffset = offset;
-            
-            // 時間緊急時改變顏色
-            if (gameState.timeLeft <= 10) {
-                progress.style.stroke = 'var(--danger)';
-            } else if (gameState.timeLeft <= 20) {
-                progress.style.stroke = 'var(--warning)';
-            } else {
-                progress.style.stroke = 'var(--success)';
-            }
+            // 啟用下一題按鈕
+            nextQuizBtn.disabled = false;
         }
         
         // 下一題
-        function nextQuestion() {
-            // 修復：檢查是否還有下一題
-            if (gameState.currentQuestionIndex >= gameState.questions.length - 1) {
-                // 已是最後一題，結束遊戲
-                endGame();
-                return;
+        nextQuizBtn.addEventListener('click', function() {
+            learningData.currentQuizIndex++;
+            
+            if (learningData.currentQuizIndex < learningData.quizQuestions.length) {
+                loadQuizQuestion();
+                this.disabled = true;
+            } else {
+                // 測驗完成
+                showQuizResults();
+            }
+        });
+        
+        // 顯示測驗結果
+        function showQuizResults() {
+            // 更新進度到100%
+            learningData.progress = 100;
+            updateProgress();
+            
+            // 計算分數
+            const totalQuestions = learningData.quizQuestions.length;
+            const score = learningData.quizScore;
+            const percentage = Math.round((score / totalQuestions) * 100);
+            
+            quizScore.textContent = `${score}/${totalQuestions}`;
+            
+            // 顯示結果
+            quizContent.style.display = 'none';
+            quizResults.style.display = 'block';
+            
+            // 顯示鼓勵訊息
+            let message = '';
+            if (percentage >= 80) {
+                message = '優秀！你已經充分掌握了這個主題！';
+            } else if (percentage >= 60) {
+                message = '不錯！但還有一些知識需要加強。';
+            } else {
+                message = '需要多加練習，建議重新學習這個主題。';
             }
             
-            // 移到下一題
-            gameState.currentQuestionIndex++;
-            
-            // 重置道具使用記錄（每題重置）
-            gameState.usedPowerups = [];
-            
-            // 載入下一題
-            loadQuestion();
-            
-            // 如果是經典/生存模式，重啟計時器
-            if (gameState.gameMode !== 'timeAttack') {
-                startTimer();
-            }
+            document.querySelector('#quizResults p').textContent = message;
         }
         
-        // 結束遊戲
-        function endGame() {
-            clearInterval(gameState.timerInterval);
-            
-            // 計算最終統計
-            const endTime = new Date();
-            const timeUsed = gameState.gameMode === 'timeAttack' ? 
-                120 - gameState.timeLeft : 
-                Math.floor((endTime - gameState.startTime) / 1000);
-            
-            // 修復：使用 answeredQuestions 而不是 currentQuestionIndex + 1
-            const totalAnswered = gameState.answeredQuestions;
-            const accuracy = totalAnswered > 0 ? 
-                Math.round((gameState.correctAnswers / totalAnswered) * 100) : 0;
-            
-            // 更新結果顯示
-            document.getElementById('finalScoreDisplay').textContent = gameState.score;
-            document.getElementById('finalCorrectAnswers').textContent = 
-                `${gameState.correctAnswers}/${totalAnswered}`;
-            document.getElementById('finalAccuracy').textContent = `${accuracy}%`;
-            document.getElementById('finalTime').textContent = `${timeUsed}秒`;
-            document.getElementById('finalCombo').textContent = gameState.maxCombo;
-            
-            // 保存到排行榜
-            saveToLeaderboard();
-            
-            // 顯示排行榜
-            displayLeaderboard();
-            
-            // 切換到結果頁面
-            gameInterface.style.display = 'none';
-            resultsContainer.style.display = 'block';
+        // 重新測驗
+        retryQuizBtn.addEventListener('click', function() {
+            resetQuiz();
+            loadQuizQuestion();
+        });
+        
+        // 重置測驗
+        function resetQuiz() {
+            learningData.currentQuizIndex = 0;
+            learningData.quizScore = 0;
+            quizContent.style.display = 'block';
+            quizResults.style.display = 'none';
+            nextQuizBtn.disabled = true;
         }
         
-        // 保存到排行榜
-        function saveToLeaderboard() {
-            // 從本地儲存獲取排行榜
-            let leaderboard = JSON.parse(localStorage.getItem('firstAidLeaderboard') || '[]');
+        // 重新開始學習
+        document.getElementById('restartLearningBtn').addEventListener('click', function() {
+            // 重置學習數據
+            learningData.progress = 0;
+            learningData.knowledgeGaps = [];
+            learningData.currentQuizIndex = 0;
+            learningData.quizScore = 0;
             
-            // 創建新的記錄
-            const newRecord = {
-                name: gameState.playerName,
-                avatar: gameState.playerAvatar,
-                score: gameState.score,
-                mode: gameState.gameMode,
-                correct: gameState.correctAnswers,
-                total: gameState.answeredQuestions,
-                date: new Date().toISOString(),
-                timestamp: Date.now() // 添加時間戳用於排序
-            };
+            // 更新進度
+            updateProgress();
             
-            // 添加新記錄
-            leaderboard.push(newRecord);
+            // 重置測驗
+            resetQuiz();
             
-            // 按分數排序，分數相同時按時間排序（最新的在前面）
-            leaderboard.sort((a, b) => {
-                if (b.score !== a.score) {
-                    return b.score - a.score;
-                }
-                return b.timestamp - a.timestamp; // 分數相同時，最新的記錄排前面
-            });
+            // 提示選擇新主題
+            alert('請在左側選擇一個新的急救知識主題開始學習！');
             
-            // 只保留前20名
-            leaderboard = leaderboard.slice(0, 20);
-            
-            // 保存回本地儲存
-            localStorage.setItem('firstAidLeaderboard', JSON.stringify(leaderboard));
-        }
-        
-        // 顯示排行榜
-        function displayLeaderboard() {
-            const leaderboardList = document.getElementById('leaderboardList');
-            leaderboardList.innerHTML = '';
-            
-            // 從本地儲存獲取排行榜
-            const leaderboard = JSON.parse(localStorage.getItem('firstAidLeaderboard') || '[]');
-            
-            if (leaderboard.length === 0) {
-                leaderboardList.innerHTML = '<li style="text-align: center; color: #666; padding: 30px;">暫時沒有記錄，快來成為第一個上榜的人吧！</li>';
-                return;
-            }
-            
-            // 顯示前10名
-            leaderboard.slice(0, 10).forEach((entry, index) => {
-                const li = document.createElement('li');
-                li.className = 'leaderboard-item';
-                
-                // 設置排名樣式
-                let rankClass = '';
-                if (index === 0) rankClass = 'leaderboard-rank-1';
-                else if (index === 1) rankClass = 'leaderboard-rank-2';
-                else if (index === 2) rankClass = 'leaderboard-rank-3';
-                
-                // 計算正確率
-                const accuracy = entry.total > 0 ? 
-                    Math.round((entry.correct / entry.total) * 100) : 0;
-                
-                // 根據遊戲模式顯示圖標
-                let modeIcon = '';
-                let modeText = '';
-                if (entry.mode === 'classic') {
-                    modeIcon = 'fa-graduation-cap';
-                    modeText = '經典模式';
-                } else if (entry.mode === 'timeAttack') {
-                    modeIcon = 'fa-bolt';
-                    modeText = '時間挑戰';
-                } else {
-                    modeIcon = 'fa-skull-crossbones';
-                    modeText = '生存模式';
-                }
-                
-                li.innerHTML = `
-                    <div class="leaderboard-rank ${rankClass}">${index + 1}</div>
-                    <div class="leaderboard-player">
-                        <div class="avatar avatar-${entry.avatar}" style="width: 40px; height: 40px; font-size: 1.2rem;">
-                            <i class="fas ${modeIcon}"></i>
-                        </div>
-                        <div>
-                            <div style="font-weight: bold;">${entry.name}</div>
-                            <div style="font-size: 0.9rem; color: #666;">
-                                <i class="fas ${modeIcon}"></i> ${modeText}
-                                <br>
-                                <small>${entry.correct}/${entry.total} (${accuracy}%)</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="leaderboard-score">${entry.score}</div>
-                `;
-                
-                leaderboardList.appendChild(li);
-            });
-        }
-        
-        // 查看排行榜
-        function viewLeaderboard() {
-            // 切換到結果頁面顯示排行榜
-            lobby.style.display = 'none';
-            gameInterface.style.display = 'none';
-            resultsContainer.style.display = 'block';
-            
-            // 隱藏分數顯示，只顯示排行榜
-            document.querySelector('.score-display').style.display = 'none';
-            document.querySelector('.score-breakdown').style.display = 'none';
-            document.querySelector('.results-header').style.display = 'none';
-            
-            // 更新排行榜標題
-            const leaderboardTitle = document.querySelector('.leaderboard-title');
-            leaderboardTitle.textContent = '排行榜';
-            leaderboardTitle.style.textAlign = 'center';
-            leaderboardTitle.style.fontSize = '2rem';
-            
-            // 調整按鈕
-            const buttons = document.querySelector('.results-container > div:last-child');
-            buttons.innerHTML = `
-                <button class="btn btn-secondary" onclick="backToLobby()">
-                    <i class="fas fa-home"></i> 返回大廳
-                </button>
-            `;
-            
-            // 顯示排行榜
-            displayLeaderboard();
-        }
-        
-        // 再玩一次
-        function playAgain() {
-            startGame(gameState.gameMode);
-        }
-        
-        // 返回大廳
-        function backToLobby() {
-            // 恢復結果頁面元素
-            const resultsHeader = document.querySelector('.results-header');
-            const scoreDisplay = document.querySelector('.score-display');
-            const scoreBreakdown = document.querySelector('.score-breakdown');
-            const leaderboardTitle = document.querySelector('.leaderboard-title');
-            
-            if (resultsHeader) resultsHeader.style.display = 'block';
-            if (scoreDisplay) scoreDisplay.style.display = 'block';
-            if (scoreBreakdown) scoreBreakdown.style.display = 'grid';
-            if (leaderboardTitle) {
-                leaderboardTitle.textContent = '排行榜';
-                leaderboardTitle.style.textAlign = 'left';
-                leaderboardTitle.style.fontSize = '1.8rem';
-            }
-            
-            // 恢復按鈕
-            const buttons = document.querySelector('.results-container > div:last-child');
-            buttons.innerHTML = `
-                <button class="btn btn-primary btn-large" onclick="playAgain()">
-                    <i class="fas fa-redo"></i> 再玩一次
-                </button>
-                <button class="btn btn-secondary" onclick="backToLobby()" style="margin-left: 20px;">
-                    <i class="fas fa-home"></i> 返回大廳
-                </button>
-            `;
-            
-            // 切換到大廳
-            lobby.style.display = 'block';
-            gameInterface.style.display = 'none';
-            resultsContainer.style.display = 'none';
-        }
-        
-        // 退出遊戲
-        function quitGame() {
-            if (confirm('確定要退出遊戲嗎？你的進度將會丟失。')) {
-                backToLobby();
-            }
-        }
+            // 滾動到頂部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
         
         // 初始化
         document.addEventListener('DOMContentLoaded', function() {
-            // 設置默認玩家名稱
-            document.getElementById('playerName').value = `玩家${Math.floor(Math.random() * 1000)}`;
+            // 載入第一個測驗題目
+            loadQuizQuestion();
+            nextQuizBtn.disabled = true;
             
-            // 預覽排行榜
-            displayLeaderboard();
+            // 初始化進度
+            updateProgress();
+            
+            // 初始化錄音按鈕狀態
+            recordBtn.disabled = true;
+            playBtn.disabled = true;
+            stopBtn.disabled = true;
         });
     </script>
 </body>
