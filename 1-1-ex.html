@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小六常識急救測驗遊戲</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #2c3e50, #4a6491);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 30px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .info-box {
+            text-align: center;
+        }
+        
+        .info-title {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .game-container {
+            padding: 30px;
+            min-height: 400px;
+        }
+        
+        /* 遊戲選擇畫面 */
+        .game-selection {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .game-title {
+            font-size: 2.2rem;
+            color: #2c3e50;
+            margin-bottom: 40px;
+        }
+        
+        .game-cards {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .game-card {
+            width: 220px;
+            background: white;
+            border-radius: 15px;
+            padding: 25px 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+            border-color: #4a6491;
+        }
+        
+        .game-icon {
+            font-size: 3rem;
+            color: #4a6491;
+            margin-bottom: 15px;
+        }
+        
+        .game-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .game-card p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        /* 測驗題目樣式 */
+        .question-container {
+            display: none;
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .question-counter {
+            font-size: 1.1rem;
+            color: #4a6491;
+            font-weight: bold;
+        }
+        
+        .question-type {
+            background-color: #4a6491;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .question-text {
+            font-size: 1.4rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+        
+        /* 選擇題樣式 */
+        .mcq-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .mcq-option {
+            padding: 18px 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid #eaeaea;
+            font-size: 1.1rem;
+        }
+        
+        .mcq-option:hover {
+            background-color: #eef2f7;
+            border-color: #c3cfe2;
+        }
+        
+        .mcq-option.selected {
+            background-color: #e3f2fd;
+            border-color: #4a6491;
+            color: #2c3e50;
+        }
+        
+        /* 填充題樣式 */
+        .fill-blank-input {
+            width: 100%;
+            padding: 18px 20px;
+            font-size: 1.2rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin-top: 10px;
+            transition: border 0.3s;
+        }
+        
+        .fill-blank-input:focus {
+            border-color: #4a6491;
+            outline: none;
+        }
+        
+        /* 判斷題樣式 */
+        .true-false-options {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .true-false-btn {
+            padding: 20px 40px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 3px solid transparent;
+            min-width: 150px;
+        }
+        
+        .true-btn {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .true-btn:hover, .true-btn.selected {
+            background-color: #c8e6c9;
+            border-color: #2e7d32;
+        }
+        
+        .false-btn {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        .false-btn:hover, .false-btn.selected {
+            background-color: #ffcdd2;
+            border-color: #c62828;
+        }
+        
+        /* 按鈕樣式 */
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+        
+        .action-btn {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .back-btn {
+            background-color: #f5f5f5;
+            color: #666;
+        }
+        
+        .back-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .next-btn {
+            background-color: #4a6491;
+            color: white;
+        }
+        
+        .next-btn:hover {
+            background-color: #3a547a;
+        }
+        
+        .submit-btn {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .submit-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        /* 結果畫面樣式 */
+        .result-container {
+            text-align: center;
+            padding: 50px 30px;
+            display: none;
+        }
+        
+        .result-icon {
+            font-size: 5rem;
+            color: #2ecc71;
+            margin-bottom: 20px;
+        }
+        
+        .result-title {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .result-score {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #4a6491;
+            margin: 30px 0;
+        }
+        
+        .result-details {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: left;
+        }
+        
+        .result-details h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .restart-btn {
+            background-color: #4a6491;
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.2s ease;
+        }
+        
+        .restart-btn:hover {
+            background-color: #3a547a;
+        }
+        
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .game-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .game-card {
+                width: 90%;
+            }
+            
+            .true-false-options {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .true-false-btn {
+                width: 90%;
+            }
+            
+            .button-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .action-btn {
+                width: 100%;
+            }
+        }
+        
+        /* 動畫 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        /* 正確/錯誤答案樣式 */
+        .correct {
+            background-color: #e8f5e9 !important;
+            border-color: #2e7d32 !important;
+        }
+        
+        .incorrect {
+            background-color: #ffebee !important;
+            border-color: #c62828 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-first-aid"></i> 小六常識急救測驗遊戲</h1>
+            <p class="subtitle">測試你對急救知識的掌握程度</p>
+        </header>
+        
+        <div class="game-info">
+            <div class="info-box">
+                <div class="info-title">遊戲模式</div>
+                <div class="info-value" id="game-mode">未選擇</div>
+            </div>
+            <div class="info-box">
+                <div class="info-title">當前分數</div>
+                <div class="info-value" id="current-score">0</div>
+            </div>
+            <div class="info-box">
+                <div class="info-title">答題進度</div>
+                <div class="info-value" id="progress">0/0</div>
+            </div>
+        </div>
+        
+        <!-- 遊戲選擇畫面 -->
+        <div class="game-container game-selection fade-in" id="game-selection">
+            <h2 class="game-title">選擇測驗模式</h2>
+            <div class="game-cards">
+                <div class="game-card" id="mcq-card" onclick="selectGame('mcq')">
+                    <div class="game-icon">
+                        <i class="fas fa-list-ol"></i>
+                    </div>
+                    <h3>選擇題測驗</h3>
+                    <p>從多個選項中選擇正確答案，測試你對急救知識的理解。</p>
+                </div>
+                
+                <div class="game-card" id="fill-card" onclick="selectGame('fill')">
+                    <div class="game-icon">
+                        <i class="fas fa-pencil-alt"></i>
+                    </div>
+                    <h3>填充題測驗</h3>
+                    <p>根據題目填寫適當的答案，考驗你對急救步驟的記憶。</p>
+                </div>
+                
+                <div class="game-card" id="tf-card" onclick="selectGame('tf')">
+                    <div class="game-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>判斷題測驗</h3>
+                    <p>判斷陳述是否正確，考驗你對急救觀念的辨別能力。</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 選擇題測驗 -->
+        <div class="game-container question-container" id="mcq-container">
+            <div class="question-header">
+                <div class="question-counter" id="mcq-counter">第 1 題，共 5 題</div>
+                <div class="question-type">選擇題</div>
+            </div>
+            
+            <div class="question-text" id="mcq-question"></div>
+            
+            <div class="mcq-options" id="mcq-options"></div>
+            
+            <div class="button-container">
+                <button class="action-btn back-btn" onclick="backToSelection()">
+                    <i class="fas fa-arrow-left"></i> 返回主選單
+                </button>
+                <button class="action-btn next-btn" id="mcq-next-btn" onclick="nextMCQ()">
+                    下一題 <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 填充題測驗 -->
+        <div class="game-container question-container" id="fill-container">
+            <div class="question-header">
+                <div class="question-counter" id="fill-counter">第 1 題，共 5 題</div>
+                <div class="question-type">填充題</div>
+            </div>
+            
+            <div class="question-text" id="fill-question"></div>
+            
+            <div class="fill-blank-container">
+                <input type="text" class="fill-blank-input" id="fill-answer" placeholder="請輸入答案...">
+            </div>
+            
+            <div class="button-container">
+                <button class="action-btn back-btn" onclick="backToSelection()">
+                    <i class="fas fa-arrow-left"></i> 返回主選單
+                </button>
+                <button class="action-btn next-btn" id="fill-next-btn" onclick="nextFill()">
+                    下一題 <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 判斷題測驗 -->
+        <div class="game-container question-container" id="tf-container">
+            <div class="question-header">
+                <div class="question-counter" id="tf-counter">第 1 題，共 5 題</div>
+                <div class="question-type">判斷題</div>
+            </div>
+            
+            <div class="question-text" id="tf-question"></div>
+            
+            <div class="true-false-options">
+                <div class="true-false-btn true-btn" id="true-btn" onclick="selectTrue()">正確 ✓</div>
+                <div class="true-false-btn false-btn" id="false-btn" onclick="selectFalse()">錯誤 ✗</div>
+            </div>
+            
+            <div class="button-container">
+                <button class="action-btn back-btn" onclick="backToSelection()">
+                    <i class="fas fa-arrow-left"></i> 返回主選單
+                </button>
+                <button class="action-btn next-btn" id="tf-next-btn" onclick="nextTF()">
+                    下一題 <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 結果畫面 -->
+        <div class="game-container result-container" id="result-container">
+            <div class="result-icon">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <h2 class="result-title">測驗完成！</h2>
+            <div class="result-score" id="final-score">0/0</div>
+            <p>你已經完成了本次急救知識測驗。</p>
+            
+            <div class="result-details">
+                <h3><i class="fas fa-clipboard-list"></i> 測驗結果分析</h3>
+                <p><strong>測驗模式：</strong> <span id="result-mode"></span></p>
+                <p><strong>答對題數：</strong> <span id="correct-answers">0</span> 題</p>
+                <p><strong>答錯題數：</strong> <span id="wrong-answers">0</span> 題</p>
+                <p><strong>正確率：</strong> <span id="accuracy-rate">0%</span></p>
+            </div>
+            
+            <button class="restart-btn" onclick="restartGame()">
+                <i class="fas fa-redo"></i> 重新開始測驗
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 遊戲數據
+        const gameData = {
+            mcq: {
+                title: "選擇題測驗",
+                questions: [
+                    {
+                        question: "如患者進行簡單急救後情況仍未見改善，應該怎麼做？",
+                        options: [
+                            "繼續嘗試同樣的急救方法",
+                            "立即求助或報警召喚救護車",
+                            "讓患者休息一會",
+                            "上網查詢更多急救方法"
+                        ],
+                        correct: 1,
+                        userAnswer: null
+                    },
+                    {
+                        question: "流鼻血時，我們應該怎麼做？",
+                        options: [
+                            "仰頭防止血液流出",
+                            "坐下，頭微向前傾，用手指捏著鼻骨下的柔軟部分",
+                            "用冰塊直接敷在鼻子上",
+                            "立即躺下休息"
+                        ],
+                        correct: 1,
+                        userAnswer: null
+                    },
+                    {
+                        question: "香港的緊急救援服務主要由哪個部門提供？",
+                        options: [
+                            "警務處",
+                            "消防處", 
+                            "醫院管理局",
+                            "醫療輔助隊"
+                        ],
+                        correct: 1,
+                        userAnswer: null
+                    },
+                    {
+                        question: "處理輕微燒傷的正確方法是什麼？",
+                        options: [
+                            "塗抹牙膏或醬油",
+                            "用冷水沖洗傷處10分鐘",
+                            "立即刺破水泡",
+                            "用繃帶緊緊包紮"
+                        ],
+                        correct: 1,
+                        userAnswer: null
+                    },
+                    {
+                        question: "急救箱不應該放在什麼地方？",
+                        options: [
+                            "固定的地方",
+                            "小孩不輕易觸及的地方",
+                            "潮濕不通風的地方",
+                            "容易看見的地方"
+                        ],
+                        correct: 2,
+                        userAnswer: null
+                    }
+                ]
+            },
+            fill: {
+                title: "填充題測驗",
+                questions: [
+                    {
+                        question: "急救的目的是防止傷勢或病情惡化、保存傷者的______，以及促進傷口______。",
+                        answer: "生命,康復",
+                        userAnswer: ""
+                    },
+                    {
+                        question: "流鼻血時，我們應該坐下，______微向前傾，用口呼吸，用手指捏著______下的柔軟部分，維持十分鐘。",
+                        answer: "頭,鼻骨",
+                        userAnswer: ""
+                    },
+                    {
+                        question: "撞傷後出現______、腫、痛、______的徵狀，適宜進行冷敷作為簡單急救。",
+                        answer: "瘀,熱",
+                        userAnswer: ""
+                    },
+                    {
+                        question: "香港的緊急救援服務主要由______提供。",
+                        answer: "消防處",
+                        userAnswer: ""
+                    },
+                    {
+                        question: "如患者進行簡單急救後情況仍未見改善，應立即______或報警召喚救護車。",
+                        answer: "求助",
+                        userAnswer: ""
+                    }
+                ]
+            },
+            tf: {
+                title: "判斷題測驗",
+                questions: [
+                    {
+                        question: "處理熱衰竭時，給患者喝冷水是正確的。",
+                        answer: false,
+                        userAnswer: null
+                    },
+                    {
+                        question: "處理熱衰竭時，幫患者散熱是正確的。",
+                        answer: true,
+                        userAnswer: null
+                    },
+                    {
+                        question: "輕微燒傷的處理方法包括用冷水沖洗傷處。",
+                        answer: true,
+                        userAnswer: null
+                    },
+                    {
+                        question: "輕微燒傷的處理方法包括用消毒敷料遮蓋傷處。",
+                        answer: true,
+                        userAnswer: null
+                    },
+                    {
+                        question: "「約見網友」是保護自己免受性侵犯的行為。",
+                        answer: false,
+                        userAnswer: null
+                    }
+                ]
+            }
+        };
+        
+        // 遊戲狀態
+        let currentGame = null;
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedOption = null;
+        let selectedTF = null;
+        
+        // DOM 元素
+        const gameSelection = document.getElementById('game-selection');
+        const mcqContainer = document.getElementById('mcq-container');
+        const fillContainer = document.getElementById('fill-container');
+        const tfContainer = document.getElementById('tf-container');
+        const resultContainer = document.getElementById('result-container');
+        
+        // 遊戲資訊元素
+        const gameModeElement = document.getElementById('game-mode');
+        const currentScoreElement = document.getElementById('current-score');
+        const progressElement = document.getElementById('progress');
+        
+        // 選擇遊戲模式
+        function selectGame(gameType) {
+            currentGame = gameType;
+            currentQuestion = 0;
+            score = 0;
+            selectedOption = null;
+            selectedTF = null;
+            
+            // 更新遊戲資訊
+            gameModeElement.textContent = gameData[gameType].title;
+            currentScoreElement.textContent = score;
+            progressElement.textContent = `0/${gameData[gameType].questions.length}`;
+            
+            // 隱藏遊戲選擇畫面，顯示對應遊戲
+            gameSelection.style.display = 'none';
+            
+            if (gameType === 'mcq') {
+                loadMCQQuestion();
+                mcqContainer.style.display = 'block';
+                fillContainer.style.display = 'none';
+                tfContainer.style.display = 'none';
+            } else if (gameType === 'fill') {
+                loadFillQuestion();
+                mcqContainer.style.display = 'none';
+                fillContainer.style.display = 'block';
+                tfContainer.style.display = 'none';
+            } else if (gameType === 'tf') {
+                loadTFQuestion();
+                mcqContainer.style.display = 'none';
+                fillContainer.style.display = 'none';
+                tfContainer.style.display = 'block';
+            }
+            
+            resultContainer.style.display = 'none';
+        }
+        
+        // 返回遊戲選擇畫面
+        function backToSelection() {
+            gameSelection.style.display = 'block';
+            mcqContainer.style.display = 'none';
+            fillContainer.style.display = 'none';
+            tfContainer.style.display = 'none';
+            resultContainer.style.display = 'none';
+            
+            gameModeElement.textContent = "未選擇";
+            currentScoreElement.textContent = "0";
+            progressElement.textContent = "0/0";
+        }
+        
+        // 載入選擇題
+        function loadMCQQuestion() {
+            const question = gameData.mcq.questions[currentQuestion];
+            const questionElement = document.getElementById('mcq-question');
+            const optionsElement = document.getElementById('mcq-options');
+            const counterElement = document.getElementById('mcq-counter');
+            const nextBtn = document.getElementById('mcq-next-btn');
+            
+            // 更新計數器
+            counterElement.textContent = `第 ${currentQuestion + 1} 題，共 ${gameData.mcq.questions.length} 題`;
+            progressElement.textContent = `${currentQuestion}/${gameData.mcq.questions.length}`;
+            
+            // 更新問題
+            questionElement.textContent = question.question;
+            
+            // 清空選項
+            optionsElement.innerHTML = '';
+            
+            // 添加選項
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'mcq-option';
+                if (question.userAnswer === index) {
+                    optionElement.classList.add('selected');
+                }
+                optionElement.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
+                optionElement.onclick = () => selectMCQOption(index, optionElement);
+                optionsElement.appendChild(optionElement);
+            });
+            
+            // 更新下一題按鈕文字
+            if (currentQuestion === gameData.mcq.questions.length - 1) {
+                nextBtn.textContent = '完成測驗';
+                nextBtn.className = 'action-btn submit-btn';
+            } else {
+                nextBtn.textContent = '下一題 <i class="fas fa-arrow-right"></i>';
+                nextBtn.className = 'action-btn next-btn';
+            }
+            
+            // 重置選擇
+            selectedOption = question.userAnswer;
+        }
+        
+        // 選擇選擇題選項
+        function selectMCQOption(index, element) {
+            // 移除所有選項的 selected 類
+            document.querySelectorAll('.mcq-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // 添加 selected 類到當前選項
+            element.classList.add('selected');
+            selectedOption = index;
+            gameData.mcq.questions[currentQuestion].userAnswer = index;
+        }
+        
+        // 下一題選擇題
+        function nextMCQ() {
+            if (selectedOption === null) {
+                alert('請選擇一個答案！');
+                return;
+            }
+            
+            // 檢查答案
+            const question = gameData.mcq.questions[currentQuestion];
+            const options = document.querySelectorAll('.mcq-option');
+            
+            // 顯示正確/錯誤答案
+            options.forEach((option, index) => {
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedOption && index !== question.correct) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            // 計算分數
+            if (selectedOption === question.correct) {
+                score++;
+                currentScoreElement.textContent = score;
+            }
+            
+            // 短暫暫停後進入下一題或顯示結果
+            setTimeout(() => {
+                currentQuestion++;
+                
+                if (currentQuestion < gameData.mcq.questions.length) {
+                    loadMCQQuestion();
+                } else {
+                    showResults();
+                }
+            }, 1000);
+        }
+        
+        // 載入填充題
+        function loadFillQuestion() {
+            const question = gameData.fill.questions[currentQuestion];
+            const questionElement = document.getElementById('fill-question');
+            const answerInput = document.getElementById('fill-answer');
+            const counterElement = document.getElementById('fill-counter');
+            const nextBtn = document.getElementById('fill-next-btn');
+            
+            // 更新計數器
+            counterElement.textContent = `第 ${currentQuestion + 1} 題，共 ${gameData.fill.questions.length} 題`;
+            progressElement.textContent = `${currentQuestion}/${gameData.fill.questions.length}`;
+            
+            // 更新問題
+            questionElement.textContent = question.question;
+            
+            // 清空輸入框
+            answerInput.value = question.userAnswer || '';
+            
+            // 更新下一題按鈕文字
+            if (currentQuestion === gameData.fill.questions.length - 1) {
+                nextBtn.textContent = '完成測驗';
+                nextBtn.className = 'action-btn submit-btn';
+            } else {
+                nextBtn.textContent = '下一題 <i class="fas fa-arrow-right"></i>';
+                nextBtn.className = 'action-btn next-btn';
+            }
+        }
+        
+        // 下一題填充題
+        function nextFill() {
+            const answerInput = document.getElementById('fill-answer');
+            const userAnswer = answerInput.value.trim();
+            
+            if (!userAnswer) {
+                alert('請輸入答案！');
+                return;
+            }
+            
+            // 儲存使用者答案
+            gameData.fill.questions[currentQuestion].userAnswer = userAnswer;
+            
+            // 檢查答案（簡單比對）
+            const correctAnswer = gameData.fill.questions[currentQuestion].answer;
+            const userAnswers = userAnswer.split(/[,，]/).map(ans => ans.trim());
+            const correctAnswers = correctAnswer.split(/[,，]/).map(ans => ans.trim());
+            
+            let isCorrect = false;
+            
+            // 簡單比對邏輯
+            if (userAnswers.length === correctAnswers.length) {
+                isCorrect = userAnswers.every((ans, idx) => 
+                    ans === correctAnswers[idx] || 
+                    correctAnswers.some(correct => correct.includes(ans) || ans.includes(correct))
+                );
+            } else {
+                // 如果答案數量不同，嘗試比對所有可能答案
+                isCorrect = userAnswers.some(userAns => 
+                    correctAnswers.some(correct => 
+                        userAns === correct || correct.includes(userAns) || userAns.includes(correct)
+                    )
+                );
+            }
+            
+            // 視覺回饋
+            if (isCorrect) {
+                answerInput.classList.add('correct');
+                score++;
+                currentScoreElement.textContent = score;
+            } else {
+                answerInput.classList.add('incorrect');
+                // 顯示正確答案提示
+                answerInput.placeholder = `正確答案: ${correctAnswer}`;
+            }
+            
+            // 短暫暫停後進入下一題或顯示結果
+            setTimeout(() => {
+                currentQuestion++;
+                
+                if (currentQuestion < gameData.fill.questions.length) {
+                    loadFillQuestion();
+                    answerInput.classList.remove('correct', 'incorrect');
+                    answerInput.placeholder = "請輸入答案...";
+                } else {
+                    showResults();
+                }
+            }, 1500);
+        }
+        
+        // 載入判斷題
+        function loadTFQuestion() {
+            const question = gameData.tf.questions[currentQuestion];
+            const questionElement = document.getElementById('tf-question');
+            const counterElement = document.getElementById('tf-counter');
+            const nextBtn = document.getElementById('tf-next-btn');
+            const trueBtn = document.getElementById('true-btn');
+            const falseBtn = document.getElementById('false-btn');
+            
+            // 更新計數器
+            counterElement.textContent = `第 ${currentQuestion + 1} 題，共 ${gameData.tf.questions.length} 題`;
+            progressElement.textContent = `${currentQuestion}/${gameData.tf.questions.length}`;
+            
+            // 更新問題
+            questionElement.textContent = question.question;
+            
+            // 重置按鈕狀態
+            trueBtn.classList.remove('selected');
+            falseBtn.classList.remove('selected');
+            
+            if (question.userAnswer === true) {
+                trueBtn.classList.add('selected');
+                selectedTF = true;
+            } else if (question.userAnswer === false) {
+                falseBtn.classList.add('selected');
+                selectedTF = false;
+            } else {
+                selectedTF = null;
+            }
+            
+            // 更新下一題按鈕文字
+            if (currentQuestion === gameData.tf.questions.length - 1) {
+                nextBtn.textContent = '完成測驗';
+                nextBtn.className = 'action-btn submit-btn';
+            } else {
+                nextBtn.textContent = '下一題 <i class="fas fa-arrow-right"></i>';
+                nextBtn.className = 'action-btn next-btn';
+            }
+        }
+        
+        // 選擇「正確」
+        function selectTrue() {
+            const trueBtn = document.getElementById('true-btn');
+            const falseBtn = document.getElementById('false-btn');
+            
+            trueBtn.classList.add('selected');
+            falseBtn.classList.remove('selected');
+            
+            selectedTF = true;
+            gameData.tf.questions[currentQuestion].userAnswer = true;
+        }
+        
+        // 選擇「錯誤」
+        function selectFalse() {
+            const trueBtn = document.getElementById('true-btn');
+            const falseBtn = document.getElementById('false-btn');
+            
+            falseBtn.classList.add('selected');
+            trueBtn.classList.remove('selected');
+            
+            selectedTF = false;
+            gameData.tf.questions[currentQuestion].userAnswer = false;
+        }
+        
+        // 下一題判斷題
+        function nextTF() {
+            if (selectedTF === null) {
+                alert('請選擇「正確」或「錯誤」！');
+                return;
+            }
+            
+            // 檢查答案
+            const question = gameData.tf.questions[currentQuestion];
+            const trueBtn = document.getElementById('true-btn');
+            const falseBtn = document.getElementById('false-btn');
+            
+            // 顯示正確/錯誤答案
+            if (question.answer === true) {
+                trueBtn.classList.add('correct');
+                if (selectedTF === false) {
+                    falseBtn.classList.add('incorrect');
+                }
+            } else {
+                falseBtn.classList.add('correct');
+                if (selectedTF === true) {
+                    trueBtn.classList.add('incorrect');
+                }
+            }
+            
+            // 計算分數
+            if (selectedTF === question.answer) {
+                score++;
+                currentScoreElement.textContent = score;
+            }
+            
+            // 短暫暫停後進入下一題或顯示結果
+            setTimeout(() => {
+                currentQuestion++;
+                
+                if (currentQuestion < gameData.tf.questions.length) {
+                    loadTFQuestion();
+                    trueBtn.classList.remove('correct', 'incorrect');
+                    falseBtn.classList.remove('correct', 'incorrect');
+                } else {
+                    showResults();
+                }
+            }, 1000);
+        }
+        
+        // 顯示結果
+        function showResults() {
+            const totalQuestions = gameData[currentGame].questions.length;
+            const correctAnswers = score;
+            const wrongAnswers = totalQuestions - score;
+            const accuracyRate = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
+            
+            // 更新結果頁面
+            document.getElementById('final-score').textContent = `${score}/${totalQuestions}`;
+            document.getElementById('result-mode').textContent = gameData[currentGame].title;
+            document.getElementById('correct-answers').textContent = correctAnswers;
+            document.getElementById('wrong-answers').textContent = wrongAnswers;
+            document.getElementById('accuracy-rate').textContent = `${accuracyRate}%`;
+            
+            // 顯示結果頁面，隱藏其他
+            gameSelection.style.display = 'none';
+            mcqContainer.style.display = 'none';
+            fillContainer.style.display = 'none';
+            tfContainer.style.display = 'none';
+            resultContainer.style.display = 'block';
+        }
+        
+        // 重新開始遊戲
+        function restartGame() {
+            // 重置遊戲狀態
+            currentGame = null;
+            currentQuestion = 0;
+            score = 0;
+            selectedOption = null;
+            selectedTF = null;
+            
+            // 重置使用者答案
+            Object.keys(gameData).forEach(gameType => {
+                gameData[gameType].questions.forEach(question => {
+                    question.userAnswer = null;
+                });
+            });
+            
+            // 返回遊戲選擇畫面
+            gameSelection.style.display = 'block';
+            resultContainer.style.display = 'none';
+            
+            // 重置遊戲資訊
+            gameModeElement.textContent = "未選擇";
+            currentScoreElement.textContent = "0";
+            progressElement.textContent = "0/0";
+        }
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始顯示遊戲選擇畫面
+            gameSelection.style.display = 'block';
+            mcqContainer.style.display = 'none';
+            fillContainer.style.display = 'none';
+            tfContainer.style.display = 'none';
+            resultContainer.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
