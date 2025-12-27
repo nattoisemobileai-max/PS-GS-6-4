@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小六常識：平安是福 - 安全測試</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #1a3d2f;
+            --white-chalk: #ffffff;
+            --yellow-chalk: #ffff88;
+            --pink-chalk: #ff88bb;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--white-chalk);
+            font-family: 'Noto Sans TC', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-image: radial-gradient(circle, #2a4d3f 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 8px solid #5d4037;
+            padding: 30px;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        h1 {
+            color: var(--yellow-chalk);
+            text-align: center;
+            font-size: 2.5em;
+            border-bottom: 2px dashed var(--white-chalk);
+            padding-bottom: 10px;
+            text-shadow: 2px 2px #000;
+        }
+
+        .section-title {
+            color: var(--pink-chalk);
+            font-size: 1.5em;
+            margin-top: 30px;
+            text-decoration: underline;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .options label {
+            display: block;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+
+        input[type="text"] {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--yellow-chalk);
+            color: var(--yellow-chalk);
+            font-size: 1em;
+            width: 100px;
+            text-align: center;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: transparent;
+            color: var(--yellow-chalk);
+            border: 2px solid var(--yellow-chalk);
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 40px;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--yellow-chalk);
+            color: var(--bg-color);
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px solid var(--pink-chalk);
+            display: none;
+            text-align: center;
+            font-size: 1.3em;
+        }
+
+        .correct { color: #aaffaa; }
+        .wrong { color: var(--pink-chalk); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📝 平安是福：安全測試</h1>
+    
+    <div id="quiz-form">
+        <!-- 題目將由 JavaScript 動態生成 -->
+    </div>
+
+    <button onclick="calculateScore()">交卷並查看分數</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    const quizData = [
+        // 選擇題
+        { q: "1. 急救箱內不應該存放下列哪種物品？", a: "C", options: ["A. 消毒藥水", "B. 繃帶", "C. 牙膏", "D. 剪刀"], type: "mc" },
+        { q: "2. 撥打 999 報案中心時，下列哪項資訊最為重要？", a: "B", options: ["A. 報案人的職業", "B. 意外發生的確切地點", "C. 報案人的年齡", "D. 意外現場的天氣"], type: "mc" },
+        { q: "3. 處理流鼻血時，應該捏住鼻子的哪個部分？", a: "C", options: ["A. 鼻樑骨", "B. 鼻孔開口處", "C. 鼻骨下的柔軟部分", "D. 整個鼻子"], type: "mc" },
+        { q: "4. 發生火警逃生時，下列哪一項是正確的？", a: "B", options: ["A. 乘坐升降機", "B. 隨手關上大門及窗口", "C. 躲在床底", "D. 站立奔跑"], type: "mc" },
+        { q: "5. 懷疑氣體洩漏時，下列哪種行為是禁止的？", a: "C", options: ["A. 打開窗戶", "B. 拍門通知鄰居", "C. 在現場撥打手機", "D. 關閉供氣總掣"], type: "mc" },
+        { q: "6. 哪一個機構負責搜索及救援（如山火、天災）？", a: "C", options: ["A. 醫管局", "B. 聖約翰", "C. 民安隊 (CAS)", "D. 醫療輔助隊"], type: "mc" },
+        { q: "7. 下列哪種情況不需要召喚救護車？", a: "C", options: ["A. 昏迷不醒", "B. 嚴重交通意外", "C. 手指輕微擦傷", "D. 懷疑心臟病發"], type: "mc" },
+        { q: "8. 協助熱衰竭患者時，應該讓其飲用什麼？", a: "B", options: ["A. 熱茶", "B. 冷開水", "C. 汽水", "D. 止痛藥"], type: "mc" },
+        { q: "9. 在巴士上保障安全的做法是：", a: "C", options: ["A. 站在上層", "B. 站在梯間", "C. 握緊扶手", "D. 在車廂走動"], type: "mc" },
+        { q: "10. 為燙傷部位沖洗冷水，應持續約：", a: "B", options: ["A. 1分鐘", "B. 10分鐘", "C. 30分鐘", "D. 1小時"], type: "mc" },
+        { q: "11. 醫療輔助隊 (AMS) 的主要任務是：", a: "C", options: ["A. 調查案件", "B. 滅火", "C. 支援病者運送", "D. 訓練搜索犬"], type: "mc" },
+        { q: "12. 過馬路時，下列哪種行為容易導致意外？", a: "C", options: ["A. 行斑馬線", "B. 留意路面", "C. 戴耳機聽音樂", "D. 依燈號行走"], type: "mc" },
+        { q: "13. 急救的主要目的是：", a: "B", options: ["A. 取代醫生", "B. 防止傷勢惡化", "C. 不用去醫院", "D. 練習技能"], type: "mc" },
+        { q: "14. 火警受困且走廊有濃煙時，應：", a: "B", options: ["A. 衝過濃煙", "B. 用濕毛巾密封門縫", "C. 跳窗", "D. 大聲哭喊"], type: "mc" },
+        { q: "15. 警察在意外現場的主要工作是：", a: "C", options: ["A. 滅火", "B. 手術", "C. 維持秩序及調查", "D. 開救護車"], type: "mc" },
+        
+        // 是非題
+        { q: "16. 急救箱應放在固定且容易看見的位置。", a: "T", type: "tf" },
+        { q: "17. 流鼻血時應將頭向後仰。", a: "F", type: "tf" },
+        { q: "18. 救護車服務是緊急資源，不應濫用。", a: "T", type: "tf" },
+        { q: "19. 處理扭傷時，應將受傷部位托高並冷敷。", a: "T", type: "tf" },
+        { q: "20. 懷疑氣體洩漏時，應立即按動鄰居門鈴。", a: "F", type: "tf" },
+        { q: "21. 逃生三寶包括手機、門匙和濕毛巾。", a: "T", type: "tf" },
+        { q: "22. 燒烤後，必須用水熄滅火種才離開。", a: "T", type: "tf" },
+        { q: "23. 沒車時可以不使用天橋過馬路。", a: "F", type: "tf" },
+        { q: "24. 聖約翰救護機構在港已有超過百年歷史。", a: "T", type: "tf" },
+        { q: "25. 救援人員到達前應儘量自行移動傷者。", a: "F", type: "tf" },
+        { q: "26. 穿淺色透氣衣物有助預防熱衰竭。", a: "T", type: "tf" },
+        { q: "27. 燙傷後可以塗抹牙膏止痛。", a: "F", type: "tf" },
+        { q: "28. 昏厥者應平躺並墊高雙腳。", a: "T", type: "tf" },
+        { q: "29. 乘搭小巴應扣好安全帶。", a: "T", type: "tf" },
+        { q: "30. 只有醫生才能進行急救。", a: "F", type: "tf" },
+
+        // 填充題
+        { q: "31. 遇上意外時，我們首要必須保持 ( )。", a: "冷靜", type: "fill" },
+        { q: "32. 急救目的包括保存生命及促進 ( )。", a: "復原", type: "fill" },
+        { q: "33. 逃生若遇濃煙，應 ( ) 爬行。", a: "伏地", type: "fill" },
+        { q: "34. 流鼻血時，應暫時用 ( ) 呼吸。", a: "口", type: "fill" },
+        { q: "35. 懷疑氣體洩漏應先關掉 ( )。", a: "供氣總掣", type: "fill" },
+        { q: "36. 報警電話是 ( )。", a: "999", type: "fill" },
+        { q: "37. 郊遊不應採摘 ( ) 食用，以免中毒。", a: "野果", type: "fill" },
+        { q: "38. 撞傷部位紅腫，應進行 ( ) 以減輕痛楚。", a: "冷敷", type: "fill" },
+        { q: "39. ( ) 的功能是維持秩序及調查起因。", a: "警務處", type: "fill" },
+        { q: "40. ( ) 是指在受傷現場給予傷者的初步救援。", a: "急救", type: "fill" },
+        { q: "41. 火警逃生時不應乘 ( )。", a: "升降機", type: "fill" },
+        { q: "42. 到達 ( ) 的地方後，才可撥打電話報告洩漏。", a: "安全", type: "fill" },
+        { q: "43. 報案時需提供受傷 ( ) 及傷勢嚴重程度。", a: "人數", type: "fill" },
+        { q: "44. ( ) 提供 24 小時急症室服務。", a: "醫院管理局", type: "fill" },
+        { q: "45. ( ) 在大型活動中提供急救及支援運送。", a: "醫療輔助隊", type: "fill" },
+        { q: "46. 應定期檢查氣體爐具及 ( )。", a: "喉管", type: "fill" },
+        { q: "47. 過馬路應依照 ( ) 指示行走。", a: "行人過路燈", type: "fill" },
+        { q: "48. 昏厥患者應 ( ) 衣領及腰帶以助循環。", a: "解開", type: "fill" },
+        { q: "49. 處理擦傷應先用 ( ) 或消毒水清洗。", a: "清水", type: "fill" },
+        { q: "50. 我們應 ( ) 住處的走火通道和逃生路線。", a: "熟悉", type: "fill" }
+    ];
+
+    const quizContainer = document.getElementById('quiz-form');
+
+    function renderQuiz() {
+        quizData.forEach((item, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            
+            let html = `<p>${item.q}</p>`;
+            
+            if (item.type === 'mc') {
+                item.options.forEach(opt => {
+                    const val = opt.charAt(0);
+                    html += `<label><input type="radio" name="q${index}" value="${val}"> ${opt}</label>`;
+                });
+            } else if (item.type === 'tf') {
+                html += `
+                    <label><input type="radio" name="q${index}" value="T"> 是 (True)</label>
+                    <label><input type="radio" name="q${index}" value="F"> 否 (False)</label>
+                `;
+            } else if (item.type === 'fill') {
+                html = `<p>${item.q.replace('( )', `<input type="text" id="q${index}">`)}</p>`;
+            }
+            
+            qDiv.innerHTML = html;
+            quizContainer.appendChild(qDiv);
+        });
+    }
+
+    function calculateScore() {
+        let score = 0;
+        quizData.forEach((item, index) => {
+            let userAnswer = '';
+            if (item.type === 'mc' || item.type === 'tf') {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                userAnswer = selected ? selected.value : '';
+            } else {
+                userAnswer = document.getElementById(`q${index}`).value.trim();
+            }
+
+            if (userAnswer === item.a) {
+                score++;
+            }
+        });
+
+        const resultDiv = document.getElementById('result');
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = `你的得分是：${score} / 50 <br> ${score >= 40 ? '🌟 太棒了！你是安全小先鋒！' : '📚 再加油，多溫習一下筆記吧！'}`;
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    renderQuiz();
+</script>
+
+</body>
+</html>
